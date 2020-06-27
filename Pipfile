@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 flask = "*"
 python-dotenv = "*"
+woocommerce = "*"
 
 [requires]
 python_version = "3.8"
