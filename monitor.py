@@ -5,6 +5,7 @@ from flask import Flask, request
 import json
 import re
 from api_methods import wcapi
+import os
 
 app = Flask(__name__)
 
