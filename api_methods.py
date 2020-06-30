@@ -15,6 +15,9 @@ wcapi = API(
 )
 
 r = wcapi.get("orders?completed")
+
+
+
 import pprint
 pprint.pprint(r.json())
 print(r.status_code)
