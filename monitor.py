@@ -33,7 +33,8 @@ def new_order_hook():
     to print that message in the server console.
     """
     request_object = request.stream.read().decode("utf-8")
-    requestP = request
+    import pprint
+    pprint.pprint(request_object)
     
 
     return (request_object, 200, None)
