@@ -30,9 +30,9 @@ def getMessage():
 
 @server.route('/hook')
 def webhook():
-    url=url
+    jurl=url
     bot.remove_webhook()
-    bot.set_webhook(url + token)
+    bot.set_webhook(jurl + token)
     return f"Webhook set to {url}"
 
 if debug==True:
