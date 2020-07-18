@@ -9,9 +9,11 @@ csecret = os.getenv("csecret")
 debug = (os.getenv("DEBUG") == 'True')
 token = os.getenv("token")
 url = os.getenv("url")
+bst_url = os.getenv("bst_url")
+
 
 wcapi = API(
-    url=url,
+    url=bst_url,
     consumer_key=ckey,
     consumer_secret=csecret,
     version="wc/v3"

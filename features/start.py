@@ -1,5 +1,6 @@
 from config import bot, wcapi
 import re
+from database import BstPage
 
 def get_order(load):
     data = wcapi.get(f"orders/{load}").json()
@@ -15,8 +16,16 @@ def start(message):
     try:
         load = int(load)
         data = get_order(load)
-        bot.send_message(user_id, text=f"this is my father's house {name} Your query parameter is {load} and your data is {data}")
+        # name = [i.name for i in data['line_items']]
+        order_name = data['line_items'][0]['name']
+        answer = f"""
+Hello {name},
+Your subscription for {order_name} has been processed
+
+"""
+        bot.send_message(user_id, text=answer)
     except:
         name = message.from_user.first_name
         bot.send_message(user_id, text=f"this is my father's house {name} Your query parameter is {load}")
+
 
