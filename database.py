@@ -12,10 +12,29 @@ from mongoengine import *
 import datetime
 
 class User(Document):
+    # user object
     userid = IntField(unique=True)
     username = StringField()
     subscriptionstatus = StringField() # subscribed or unsubscribed
+    orders = ListField(IntField())
+    subscription = DateTimeField()
     
+    def subscribed_to(self, productid, orderid):
+        self.orders.append(orderid)
+
+        if productid == 978:
+            # 1 month subscription
+            subscribed_time = datetime.timedelta(days=30)
+        if productid == 1000:
+            # 2 months subscription
+            subscribed_time = datetime.timedelta(days=30)
+        if productid == 2000:
+            # 1 year subscription 
+            subscribed_time = datetime.timedelta(days=365)
+        
+        self.subscription = self.subscription + subscribed_time
+
+
     def __repr__(self):
         return f'User {self.username}'
 
