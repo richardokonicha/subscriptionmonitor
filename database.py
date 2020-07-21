@@ -11,10 +11,19 @@ connect('monitor_db', host=db_host)
 from mongoengine import *
 import datetime
 
+class User(Document):
+    userid = IntField(unique=True)
+    username = StringField()
+    subscriptionstatus = StringField() # subscribed or unsubscribed
+    
+    def __repr__(self):
+        return f'User {self.username}'
+
+
 class BstPage(Document):
     title = StringField(max_length=200, required=True)
     date_modified = DateTimeField(default=datetime.datetime.utcnow)
-    order_id = IntField(max_value=50, unique=True)
+    order_id = IntField( unique=True)
     phone = IntField(unique=True)
     product_id = IntField()
     expire = DateTimeField()
