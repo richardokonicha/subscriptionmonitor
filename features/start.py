@@ -21,32 +21,41 @@ def start(message):
             username=username
             )
         bst_user.save()
+    else:
+        username = bst_user.username
 
     text = message.text
-    load = text.strip("/start ")
+
     try:
+        load = re.match("(/start )([0-9]+)", text).groups()[1]
+
         orderid = int(load)
         # checks if orderid has been used
-        checkorder = db.Users.objects(orders=orderid)
-        if checkorder == None:
-            data = get_order(load)
+        checkorder = db.User.objects(orders=orderid)
+        if bool(checkorder) == False:
+            data = get_order(orderid)
+
+            # adds orderid to list of orders 
+            # bst_user.orders.append(orderid)
+            # bst_user.save()
 
             productid = data['line_items'][0]['product_id']
             ordername = data['line_items'][0]['name']
 
             # adds product subscribtion days and stores the order number
-            bst_user.subscribed_to(productid, orderid)
+            subscribedto = bst_user.subscribed_to(productid, orderid).strftime("%Y %B %A %d")
 
             answer = f"""
-Hello {name},
+Hello {username},
 Your subscription for {ordername} has been processed
+Your subscription expires {subscribedto}
 """
         else:
             answer = f"""Order number {orderid} has already been used"""
 
         bot.send_message(userid, text=answer)
     except:
-        name = message.from_user.first_name
+        username = message.from_user.first_name
         text = f"Hello {username} Please purchase a plan for bst website to join the VIP group"
         bot.send_message(userid, text=text)
 

@@ -17,23 +17,47 @@ class User(Document):
     username = StringField()
     subscriptionstatus = StringField() # subscribed or unsubscribed
     orders = ListField(IntField())
-    subscription = DateTimeField()
+    subscription = DateTimeField(default=datetime.datetime.now())
+
+    def checksub(self):
+        if bool(self.subscription) == False:
+            return False
+        else:
+            if self.subscription <= datetime.datetime.now():
+                return False
+            else:
+                return self.subscription - datetime.datetime.now()
     
+    def addsubscription(self, subscribed_time):
+        sub = self.checksub()
+        if sub == False:
+            self.subscription = datetime.datetime.now() + subscribed_time
+            self.save()
+            return self.subscription
+        else:
+            self.subscription = self.subscription + subscribed_time
+            self.save()
+            return self.subscription
+
+
     def subscribed_to(self, productid, orderid):
         self.orders.append(orderid)
-
         if productid == 978:
             # 1 month subscription
             subscribed_time = datetime.timedelta(days=30)
+            return self.addsubscription(subscribed_time)
+
         if productid == 1000:
             # 2 months subscription
             subscribed_time = datetime.timedelta(days=30)
+            return self.addsubscription(subscribed_time)
+
         if productid == 2000:
             # 1 year subscription 
             subscribed_time = datetime.timedelta(days=365)
-        
-        self.subscription = self.subscription + subscribed_time
+            return self.addsubscription(subscribed_time)
 
+        
 
     def __repr__(self):
         return f'User {self.username}'
