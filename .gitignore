@@ -2,3 +2,5 @@ node_modules/
 extra
 .env
 *.pyc
+features/__pycache__/
+*.session

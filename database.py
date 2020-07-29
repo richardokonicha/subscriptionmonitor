@@ -41,15 +41,15 @@ class User(Document):
 
 
     def subscribed_to(self, productid, orderid):
-        self.orders.append(orderid)
+        # self.orders.append(orderid)
         if productid == 978:
             # 1 month subscription
             subscribed_time = datetime.timedelta(days=30)
             return self.addsubscription(subscribed_time)
 
-        if productid == 1000:
+        if productid == 979:
             # 2 months subscription
-            subscribed_time = datetime.timedelta(days=30)
+            subscribed_time = datetime.timedelta(days=60)
             return self.addsubscription(subscribed_time)
 
         if productid == 2000:

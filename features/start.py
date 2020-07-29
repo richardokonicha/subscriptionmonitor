@@ -2,6 +2,8 @@ from config import bot, wcapi
 import re
 from database import BstPage
 import database as db
+# from utils import cll
+import asyncio
 
 def get_order(load):
     data = wcapi.get(f"orders/{load}").json()
@@ -43,8 +45,13 @@ def start(message):
             ordername = data['line_items'][0]['name']
 
             # adds product subscribtion days and stores the order number
-            subscribedto = bst_user.subscribed_to(productid, orderid).strftime("%Y %B %A %d")
-
+            subscribedto = bst_user.subscribed_to(productid, orderid).strftime("%A %d %B %Y")
+            # if user not in group:
+            #     add_to_group(bst_user)
+            #     update_warning()
+            # else:
+            #     update_warning()
+            
             answer = f"""
 Hello {username},
 Your subscription for {ordername} has been processed
