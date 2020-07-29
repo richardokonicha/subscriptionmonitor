@@ -8,7 +8,7 @@ load_dotenv
 api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
 client = TelegramClient('anon', api_id, api_hash)
-# client = TelegramClient('anon', 1347918, '5681581438678d9390cd4f67ee764f82')
+client = TelegramClient('anon', 1347918, '5681581438678d9390cd4f67ee764f82')
 
 async def main():
     # Getting information about yourself
