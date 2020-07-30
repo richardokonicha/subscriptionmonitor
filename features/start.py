@@ -1,14 +1,31 @@
-from config import bot, wcapi
+from config import bot, wcapi, scheduler
 import re
 from database import BstPage
 import database as db
-from telethon_client import add_to_group
+from telethon_client import bot as client_bot, main, kick
 # from utils import cll
 import asyncio
+
 
 def get_order(load):
     data = wcapi.get(f"orders/{load}").json()
     return data
+
+
+def kick_user(user):
+    user_id = user.id
+    client_bot.loop.run_until_complete(kick(user_id))
+
+
+def set_user_bst(user):
+    subscription = user.subscription
+    user_id = user.id
+
+    client_bot.start()
+    client_bot.loop.run_until_complete(main(user_id))
+    scheduler.add_job(kick_user, 'date', run_date=subscription,
+                      id=user_id, args=(user))
+
 
 @bot.message_handler(commands=["start", "Start"])
 def start(message):
@@ -16,13 +33,13 @@ def start(message):
 
     # get user object
     bst_user = db.User.objects(userid=userid).first()
-    if bst_user==None:
+    if bst_user == None:
         username = message.from_user.username if message.from_user.username != " " else message.from_user.first_name
         # create new user
         bst_user = db.User(
             userid=userid,
             username=username
-            )
+        )
         bst_user.save()
     else:
         username = bst_user.username
@@ -37,7 +54,7 @@ def start(message):
     if bool(checkorder) == False:
         data = get_order(orderid)
 
-        # adds orderid to list of orders 
+        # adds orderid to list of orders
         # bst_user.orders.append(orderid)
         # bst_user.save()
 
@@ -45,13 +62,14 @@ def start(message):
         ordername = data['line_items'][0]['name']
 
         # adds product subscribtion days and stores the order number
-        subscribedto = bst_user.subscribed_to(productid, orderid).strftime("%A %d %B %Y")
+        subscribedto = bst_user.subscribed_to(
+            productid, orderid).strftime("%A %d %B %Y")
         # if user not in group:
-        add_to_group(bst_user)
+        set_user_bst(bst_user)
         #     update_warning()
         # else:
         #     update_warning()
-        
+
         answer = f"""
 Hello {username},
 Your subscription for {ordername} has been processed
@@ -66,6 +84,3 @@ Your subscription expires {subscribedto}
     #     username = message.from_user.first_name
     #     text = f"Hello {username} Please purchase a plan for bst website to join the VIP group"
     #     bot.send_message(userid, text=text)
-
-
-

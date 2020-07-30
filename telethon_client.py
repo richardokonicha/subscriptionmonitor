@@ -25,6 +25,7 @@ channel_id = '-1001313782946'
 channel_name = 'testcasechannel'
 
 async def check_group(user_to_add):
+    # checks group if user is already participant
     channel = await bot.get_entity(channel_name)
     async for user in bot.iter_participants(channel):
         if user_to_add == user.id:
@@ -32,6 +33,7 @@ async def check_group(user_to_add):
     return False
 
 async def main(user_to_add):
+    # checks if user is in a group and add users to channel/ group
     channel = await bot.get_entity(channel_name)
     check = await check_group(user_to_add)
     if check:
@@ -42,13 +44,14 @@ async def main(user_to_add):
 
 
 async def kick(user_to_add):
+    # kicks users out of group
     channel = await bot.get_entity(channel_name)
     result = await bot(EditBannedRequest(channel.id, user_to_add, ChatBannedRights(until_date=None,view_messages=True)))
     await bot.send_message(user_to_add, f'Youve bee kicked out of {channel.title}')
 
 
-bot.start()
-bot.loop.run_until_complete(kick(1205882833))
+# bot.start()
+# bot.loop.run_until_complete(kick(1205882833))
 
 
 

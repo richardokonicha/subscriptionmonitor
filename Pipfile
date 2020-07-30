@@ -41,6 +41,7 @@ toml = "==0.10.1"
 urllib3 = "==1.25.9"
 werkzeug = "==1.0.1"
 wrapt = "==1.12.1"
+apscheduler = "*"
 
 [requires]
 python_version = "3.8"
