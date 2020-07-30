@@ -2,7 +2,7 @@ from config import bot, wcapi, scheduler
 import re
 from database import BstPage
 import database as db
-from telethon_client import bot as client_bot, main, kick
+# from telethon_client import bot_client, main, kick
 # from utils import cll
 import asyncio
 
@@ -10,21 +10,6 @@ import asyncio
 def get_order(load):
     data = wcapi.get(f"orders/{load}").json()
     return data
-
-
-# def kick_user(user):
-#     user_id = user.id
-#     client_bot.loop.run_until_complete(kick(user_id))
-
-
-# def set_user_bst(user):
-#     subscription = user.subscription
-#     user_id = user.id
-
-#     client_bot.start()
-#     client_bot.loop.run_until_complete(main(user_id))
-#     scheduler.add_job(kick_user, 'date', run_date=subscription,
-#                       id=user_id, args=(user), replace_existing=True)
 
 
 @bot.message_handler(commands=["start", "Start"])

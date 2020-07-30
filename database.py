@@ -3,7 +3,7 @@ from mongoengine import *
 from mongoengine import connect
 from dotenv import load_dotenv
 import os
-from telethon_client import bot as client_bot, main, kick
+from telethon_client import bot_client, main, kick
 from config import scheduler
 
 load_dotenv()
@@ -62,7 +62,7 @@ class User(Document):
     def kick_user(self):
         # kicks user from group
         userid = self.userid
-        client_bot.loop.run_until_complete(kick(userid))
+        bot_client.loop.run_until_complete(kick(userid))
         print("kicked user lol")
 
     def set_user_bst(self):
@@ -70,8 +70,8 @@ class User(Document):
         subscription = self.subscription
         userid = self.userid
 
-        client_bot.start()
-        client_bot.loop.run_until_complete(main(userid))
+        bot_client.start()
+        bot_client.loop.run_until_complete(main(userid))
         job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
                                 id=str(userid), replace_existing=True)
         # datetime.date.fromtimestamp(1694016856.557)
