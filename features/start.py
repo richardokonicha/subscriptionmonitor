@@ -46,12 +46,17 @@ def start(message):
         # adds orderid to list of orders
         # bst_user.orders.append(orderid)
         # bst_user.save()
-        try:
-            productid = data['line_items'][0]['product_id']
-            ordername = data['line_items'][0]['name']
-        except KeyError:
-            answer = "Invalid Order ID please place an order"
-            return bot.send_message(userid, text=answer)
+        if orderid == 101010:
+            # for test
+            productid = 101010
+            ordername = "3 minutes test"
+        else:
+            try:
+                productid = data['line_items'][0]['product_id']
+                ordername = data['line_items'][0]['name']
+            except KeyError:
+                answer = "Invalid Order ID please place an order"
+                return bot.send_message(userid, text=answer)
 
         # adds product subscribtion days and stores the order number
         subscribedto = bst_user.subscribed_to(
