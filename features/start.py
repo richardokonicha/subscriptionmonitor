@@ -12,19 +12,19 @@ def get_order(load):
     return data
 
 
-def kick_user(user):
-    user_id = user.id
-    client_bot.loop.run_until_complete(kick(user_id))
+# def kick_user(user):
+#     user_id = user.id
+#     client_bot.loop.run_until_complete(kick(user_id))
 
 
-def set_user_bst(user):
-    subscription = user.subscription
-    user_id = user.id
+# def set_user_bst(user):
+#     subscription = user.subscription
+#     user_id = user.id
 
-    client_bot.start()
-    client_bot.loop.run_until_complete(main(user_id))
-    scheduler.add_job(kick_user, 'date', run_date=subscription,
-                      id=user_id, args=(user))
+#     client_bot.start()
+#     client_bot.loop.run_until_complete(main(user_id))
+#     scheduler.add_job(kick_user, 'date', run_date=subscription,
+#                       id=user_id, args=(user), replace_existing=True)
 
 
 @bot.message_handler(commands=["start", "Start"])
@@ -46,8 +46,12 @@ def start(message):
 
     text = message.text
 
-    load = re.match("(/start )([0-9]+)", text).groups()[1]
+    load = re.match("(/start )([0-9]+)", text)
+    if not bool(load):
+        answer = "No order placed"
+        return bot.send_message(userid, text=answer)
 
+    load = load.groups()[1]
     orderid = int(load)
     # checks if orderid has been used
     checkorder = db.User.objects(orders=orderid)
@@ -57,15 +61,18 @@ def start(message):
         # adds orderid to list of orders
         # bst_user.orders.append(orderid)
         # bst_user.save()
-
-        productid = data['line_items'][0]['product_id']
-        ordername = data['line_items'][0]['name']
+        try:
+            productid = data['line_items'][0]['product_id']
+            ordername = data['line_items'][0]['name']
+        except KeyError:
+            answer = "Invalid Order ID please place an order"
+            return bot.send_message(userid, text=answer)
 
         # adds product subscribtion days and stores the order number
         subscribedto = bst_user.subscribed_to(
             productid, orderid).strftime("%A %d %B %Y")
         # if user not in group:
-        set_user_bst(bst_user)
+        # set_user_bst(bst_user)
         #     update_warning()
         # else:
         #     update_warning()

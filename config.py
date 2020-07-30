@@ -56,6 +56,7 @@ scheduler = BackgroundScheduler(
     job_defaults=job_defaults,
     timezone=utc
 )
+scheduler.start()
 
 # r = wcapi.get("orders?completed")
 
