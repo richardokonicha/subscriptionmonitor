@@ -72,6 +72,7 @@ class User(Document):
 
         bot_client.start()
         bot_client.loop.run_until_complete(main(userid))
+
         job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
                                 id=str(userid), replace_existing=True)
         # datetime.date.fromtimestamp(1694016856.557)

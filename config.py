@@ -17,6 +17,7 @@ debug = (os.getenv("DEBUG") == 'True')
 token = os.getenv("token")
 url = os.getenv("url")
 bst_url = os.getenv("bst_url")
+db_host = os.getenv("db_host")
 
 
 wcapi = API(
@@ -34,9 +35,7 @@ bot = telebot.TeleBot(
 # scheduler
 
 
-client = pymongo.MongoClient(
-    "mongodb+srv://monitor:monitor@realmcluster.yjlnu.mongodb.net/test?retryWrites=true&w=majority"
-)
+client = pymongo.MongoClient(db_host)
 
 jobstores = {
     'default': MongoDBJobStore(client=client, database="test", HOST="realmcluster-shard-00-02.yjlnu.mongodb.net"),
