@@ -46,6 +46,7 @@ def start(message):
         # adds orderid to list of orders
         # bst_user.orders.append(orderid)
         # bst_user.save()
+
         if orderid == 101010:
             # for test
             productid = 101010
@@ -57,6 +58,10 @@ def start(message):
             except KeyError:
                 answer = "Invalid Order ID please place an order"
                 return bot.send_message(userid, text=answer)
+
+        if data['status'] == "failed":
+            answer = "Your order failed please make another order"
+            return bot.send_message(userid, text=answer)
 
         # adds product subscribtion days and stores the order number
         subscribedto = bst_user.subscribed_to(
