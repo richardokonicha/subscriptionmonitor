@@ -42,10 +42,10 @@ async def main(user_to_add):
     channel = await bot_client.get_entity(channel_name)
     check = await check_group(user_to_add)
     if check:
-        newuser = f'Congratulations! Your subscription has been renewed on {channel.title}'
+        newuser = f'🟢Congratulations! Your subscription has been renewed on {channel.title}🟢'
         # await bot_client.send_message(user_to_add, f'Your subscription has been renewed on {channel.title}')
     else:
-        newuser = f'Congratulations! Welcome to {channel.title}'
+        newuser = f'🟢Congratulations! Welcome to {channel.title}🟢'
         result = await bot_client(InviteToChannelRequest(channel.id, [user_to_add]))
         # await bot_client.send_message(user_to_add, f'Welcome to {channel.title}')
 
@@ -56,7 +56,9 @@ async def kick(user_to_add):
     # kicks users out of group
     channel = await bot_client.get_entity(channel_name)
     result = await bot_client(EditBannedRequest(channel.id, user_to_add, ChatBannedRights(until_date=None, view_messages=True)))
-    await bot_client.send_message(user_to_add, f'Youve bee kicked out of {channel.title}')
+    # await bot_client.send_message(user_to_add, f'Youve bee kicked out of {channel.title}')
+    newuser = f"🔴Sorry you've been kicked out from {channel.title}🔴"
+    return {"channel": channel.title, "newuser": newuser}
 
 
 # bot_client.start()

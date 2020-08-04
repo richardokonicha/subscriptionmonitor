@@ -65,7 +65,11 @@ class User(Document):
     def kick_user(self):
         # kicks user from group
         userid = self.userid
-        bot_client.loop.run_until_complete(kick(userid))
+        main_value = bot_client.loop.run_until_complete(kick(userid))
+
+        answer = main_value['newuser']
+        bot.send_message(userid, text=answer)
+
         print("kicked user lol")
 
     def set_user_bst(self):

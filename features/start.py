@@ -59,9 +59,9 @@ def start(message):
                 answer = "Invalid Order ID please place an order"
                 return bot.send_message(userid, text=answer)
 
-        if data['status'] == "failed":
-            answer = "Your order failed please make another order"
-            return bot.send_message(userid, text=answer)
+        # if data['status'] == "failed":
+        #     answer = "Your order failed please make another order"
+        #     return bot.send_message(userid, text=answer)
 
         bot.send_chat_action(userid, action='typing')
 
