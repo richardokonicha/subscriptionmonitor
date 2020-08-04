@@ -12,6 +12,7 @@ load_dotenv()
 api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
 sessionString = os.getenv("sessionString")
+channel_name = os.getenv("testcasechannel")
 
 # bot_client = TelegramClient('anon', api_id, api_hash)
 # bot_client = TelegramClient(
@@ -25,7 +26,6 @@ bot_client = TelegramClient(
 #     client.send_code_request(phone)
 #     client.sign_in(phone, input("Enter code"))
 # bot_client = TelegramClient('bot_client', api_id,  api_hash).start(bot__client_token='1261225499:AAFBWIrd2oCKH4FarmRl-w1R9tW2Q-xxG9E')
-channel_name = 'testcasechannel'
 
 
 async def check_group(user_to_add):
