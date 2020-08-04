@@ -54,9 +54,13 @@ class User(Document):
             # 2 months subscription
             subscribed_time = datetime.timedelta(days=60)
 
-        if productid == 2000:
+        if productid == 980:
             # 1 year subscription
             subscribed_time = datetime.timedelta(days=365)
+
+        if productid == 981:
+            # 1 year subscription
+            subscribed_time = datetime.timedelta(days=1820)
 
         subscription = self.addsubscription(subscribed_time)
         job = self.set_user_bst()
