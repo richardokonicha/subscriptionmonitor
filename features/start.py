@@ -63,6 +63,8 @@ def start(message):
             answer = "Your order failed please make another order"
             return bot.send_message(userid, text=answer)
 
+        bot.send_chat_action(userid, action='typing')
+
         # adds product subscribtion days and stores the order number
         subscribedto = bst_user.subscribed_to(
             productid, orderid).strftime("%A %d %B %Y")

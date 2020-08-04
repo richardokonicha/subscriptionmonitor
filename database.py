@@ -4,7 +4,7 @@ from mongoengine import connect
 from dotenv import load_dotenv
 import os
 from telethon_client import bot_client, main, kick
-from config import scheduler
+from config import scheduler, bot
 
 load_dotenv()
 
@@ -74,11 +74,15 @@ class User(Document):
         userid = self.userid
 
         bot_client.start()
-        bot_client.loop.run_until_complete(main(userid))
+        main_value = bot_client.loop.run_until_complete(main(userid))
 
         job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
                                 id=str(userid), replace_existing=True)
         # datetime.date.fromtimestamp(1694016856.557)
+        # job.trigger.run_date
+        answer = main_value['newuser']
+        bot.send_message(userid, text=answer)
+
         return job
 
     def __repr__(self):
