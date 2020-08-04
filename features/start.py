@@ -44,8 +44,8 @@ def start(message):
         data = get_order(orderid)
 
         # adds orderid to list of orders
-        # bst_user.orders.append(orderid)
-        # bst_user.save()
+        bst_user.orders.append(orderid)
+        bst_user.save()
 
         if orderid == 101010:
             # for test
