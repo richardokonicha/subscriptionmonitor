@@ -66,6 +66,15 @@ class User(Document):
         job = self.set_user_bst()
         return subscription
 
+    def warn_user(self):
+        # warns users and sets date to be kicked out
+        userid = self.userid
+        subscription = self.subscription
+        job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
+                                id=str(userid), replace_existing=True)
+        answer = "Warning your subscription would expire soon please renew"
+        bot.send_message(userid, text=answer)
+
     def kick_user(self):
         # kicks user from group
         userid = self.userid
@@ -88,7 +97,9 @@ class User(Document):
         main_value = bot_client.loop.run_until_complete(
             main(userid, channel_name))
 
-        job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
+        warn_date = subscription - datetime.timedelta(days=1)
+
+        job = scheduler.add_job(self.warn_user, 'date', run_date=warn_date,
                                 id=str(userid), replace_existing=True)
         # datetime.date.fromtimestamp(1694016856.557)
         # job.trigger.run_date
