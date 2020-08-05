@@ -60,7 +60,15 @@ async def kick(user_to_add, channel_name):
     channel = await bot_client.get_entity(channel_name)
     result = await bot_client(EditBannedRequest(channel.id, user_to_add, ChatBannedRights(until_date=None, view_messages=True)))
     # await bot_client.send_message(user_to_add, f'Youve bee kicked out of {channel.title}')
-    newuser = f"🔴Sorry you've been kicked out from {channel.title}🔴"
+    newuser = f"""
+🔴Your subscription has ended Renew it to have access VIP
+
+Www.bst-forexgroup.com
+
+Info @bsttrading 
+
+BsTTeam
+    """
     return {"channel": channel.title, "newuser": newuser}
 
 
