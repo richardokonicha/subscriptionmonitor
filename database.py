@@ -69,7 +69,9 @@ class User(Document):
     def kick_user(self):
         # kicks user from group
         userid = self.userid
-        main_value = bot_client.loop.run_until_complete(kick(userid))
+        channel_name = os.getenv("channel_name")
+        main_value = bot_client.loop.run_until_complete(
+            kick(userid, channel_name))
 
         answer = main_value['newuser']
         bot.send_message(userid, text=answer)
@@ -80,9 +82,11 @@ class User(Document):
         # adds user to group and schedules date to kick user out
         subscription = self.subscription
         userid = self.userid
+        channel_name = os.getenv("channel_name")
 
         bot_client.start()
-        main_value = bot_client.loop.run_until_complete(main(userid))
+        main_value = bot_client.loop.run_until_complete(
+            main(userid, channel_name))
 
         job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
                                 id=str(userid), replace_existing=True)

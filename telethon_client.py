@@ -12,7 +12,7 @@ load_dotenv()
 api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
 sessionString = os.getenv("sessionString")
-channel_name = os.getenv("testcasechannel")
+# channel_name = "testcasechannel"
 
 # bot_client = TelegramClient('anon', api_id, api_hash)
 # bot_client = TelegramClient(
@@ -28,19 +28,21 @@ bot_client = TelegramClient(
 # bot_client = TelegramClient('bot_client', api_id,  api_hash).start(bot__client_token='1261225499:AAFBWIrd2oCKH4FarmRl-w1R9tW2Q-xxG9E')
 
 
-async def check_group(user_to_add):
+async def check_group(user_to_add, channel):
+    # channel_name = os.getenv("testcasechannel")
     # checks group if user is already participant
-    channel = await bot_client.get_entity(channel_name)
+    # channel = await bot_client.get_entity(channel_name)
     async for user in bot_client.iter_participants(channel):
         if user_to_add == user.id:
             return True
     return False
 
 
-async def main(user_to_add):
+async def main(user_to_add, channel_name):
+    # channel_name = os.getenv("testcasechannel")
     # checks if user is in a group and add users to channel/ group
     channel = await bot_client.get_entity(channel_name)
-    check = await check_group(user_to_add)
+    check = await check_group(user_to_add, channel)
     if check:
         newuser = f'🟢Congratulations! Your subscription has been renewed on {channel.title}🟢'
         # await bot_client.send_message(user_to_add, f'Your subscription has been renewed on {channel.title}')
@@ -52,7 +54,8 @@ async def main(user_to_add):
     return {"channel": channel.title, "newuser": newuser}
 
 
-async def kick(user_to_add):
+async def kick(user_to_add, channel_name):
+    # channel_name = os.getenv("testcasechannel")
     # kicks users out of group
     channel = await bot_client.get_entity(channel_name)
     result = await bot_client(EditBannedRequest(channel.id, user_to_add, ChatBannedRights(until_date=None, view_messages=True)))
