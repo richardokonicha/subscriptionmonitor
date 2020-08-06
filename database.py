@@ -2,6 +2,7 @@ import datetime
 from mongoengine import *
 from mongoengine import connect
 from dotenv import load_dotenv
+import telebot
 import os
 from telethon_client import bot_client, main, kick
 from config import scheduler, bot
@@ -19,21 +20,21 @@ class User(Document):
     username = StringField()
     subscriptionstatus = StringField()  # subscribed or unsubscribed
     orders = ListField(IntField())
-    subscription = DateTimeField(default=datetime.datetime.now())
+    subscription = DateTimeField(default=datetime.datetime.utcnow())
 
     def checksub(self):
         if bool(self.subscription) == False:
             return False
         else:
-            if self.subscription <= datetime.datetime.now():
+            if self.subscription <= datetime.datetime.utcnow():
                 return False
             else:
-                return self.subscription - datetime.datetime.now()
+                return self.subscription - datetime.datetime.utcnow()
 
     def addsubscription(self, subscribed_time):
         sub = self.checksub()
         if sub == False:
-            self.subscription = datetime.datetime.now() + subscribed_time
+            self.subscription = datetime.datetime.utcnow() + subscribed_time
             self.save()
             return self.subscription
         else:
@@ -44,7 +45,7 @@ class User(Document):
     def subscribed_to(self, productid, orderid):
         # self.orders.append(orderid)
         if productid == 101010:
-            subscribed_time = datetime.timedelta(minutes=3)
+            subscribed_time = datetime.timedelta(minutes=1)
 
         if productid == 978:
             # 1 month subscription
@@ -69,7 +70,8 @@ class User(Document):
     def kick_user(self):
         # kicks user from group
         userid = self.userid
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
+        bot_client.start()
         main_value = bot_client.loop.run_until_complete(
             kick(userid, channel_name))
 
@@ -78,23 +80,45 @@ class User(Document):
 
         print("kicked user lol")
 
+    def warn_user(self):
+        # kicks user from group
+        userid = self.userid
+
+        answer = """
+⚠️Warning your subscription is ending soon please Renew it to have access VIP
+
+Www.bst-forexgroup.com
+
+Info @bsttrading 
+
+BsTTeam
+        """
+        bot.send_message(userid, text=answer)
+
     def set_user_bst(self):
         # adds user to group and schedules date to kick user out
         subscription = self.subscription
         userid = self.userid
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
 
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
             main(userid, channel_name))
 
+        warn_date = self.subscription - datetime.timedelta(days=1)
+        jobwarn = scheduler.add_job(self.warn_user, 'date', run_date=warn_date,
+                                    id=str(userid) + ' warn', replace_existing=True, name=f"warn_user {self.username}")
+
         job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
-                                id=str(userid), replace_existing=True)
+                                id=str(userid), replace_existing=True, name=f"kick_user {self.username}")
+
         # datetime.date.fromtimestamp(1694016856.557)
         # job.trigger.run_date
         answer = main_value['newuser']
+        # answer = "🟢Congratulations! Your subscription has been renewed, click this the link to join🟢"
+        # telebot.types.InlineKeyboardButton(text, url=NULL, callback_data=NULL,
+        #                      switch_inline_query=NULL, switch_inline_query_current_chat=NULL)
         bot.send_message(userid, text=answer)
-
         return job
 
     def __repr__(self):
