@@ -20,21 +20,21 @@ class User(Document):
     username = StringField()
     subscriptionstatus = StringField()  # subscribed or unsubscribed
     orders = ListField(IntField())
-    subscription = DateTimeField(default=datetime.datetime.now())
+    subscription = DateTimeField(default=datetime.datetime.utcnow())
 
     def checksub(self):
         if bool(self.subscription) == False:
             return False
         else:
-            if self.subscription <= datetime.datetime.now():
+            if self.subscription <= datetime.datetime.utcnow():
                 return False
             else:
-                return self.subscription - datetime.datetime.now()
+                return self.subscription - datetime.datetime.utcnow()
 
     def addsubscription(self, subscribed_time):
         sub = self.checksub()
         if sub == False:
-            self.subscription = datetime.datetime.now() + subscribed_time
+            self.subscription = datetime.datetime.utcnow() + subscribed_time
             self.save()
             return self.subscription
         else:
@@ -80,6 +80,21 @@ class User(Document):
 
         print("kicked user lol")
 
+    def warn_user(self):
+        # kicks user from group
+        userid = self.userid
+
+        answer = """
+⚠️Warning your subscription is ending soon please Renew it to have access VIP
+
+Www.bst-forexgroup.com
+
+Info @bsttrading 
+
+BsTTeam
+        """
+        bot.send_message(userid, text=answer)
+
     def set_user_bst(self):
         # adds user to group and schedules date to kick user out
         subscription = self.subscription
@@ -90,21 +105,20 @@ class User(Document):
         main_value = bot_client.loop.run_until_complete(
             main(userid, channel_name))
 
+        warn_date = self.subscription - datetime.timedelta(days=1)
+        jobwarn = scheduler.add_job(self.warn_user, 'date', run_date=warn_date,
+                                    id=str(userid) + ' warn', replace_existing=True, name=f"warn_user {self.username}")
+
         job = scheduler.add_job(self.kick_user, 'date', run_date=subscription,
-                                id=str(userid), replace_existing=True)
+                                id=str(userid), replace_existing=True, name=f"kick_user {self.username}")
+
         # datetime.date.fromtimestamp(1694016856.557)
         # job.trigger.run_date
-        # answer = main_value['newuser']
-        answer = "🟢Congratulations! Your subscription has been renewed, click this the link to join🟢"
+        answer = main_value['newuser']
+        # answer = "🟢Congratulations! Your subscription has been renewed, click this the link to join🟢"
         # telebot.types.InlineKeyboardButton(text, url=NULL, callback_data=NULL,
         #                      switch_inline_query=NULL, switch_inline_query_current_chat=NULL)
-
-        join_channel_markup = telebot.types.InlineKeyboardMarkup()
-        join_channel_button = telebot.types.InlineKeyboardButton(
-            text="Join Now✅", url="https://t.me/joinchat/AAAAAFgIZ9ERpzrOzDH7BA", callback_data="join_channel")
-        join_channel_markup.add(join_channel_button)
-
-        bot.send_message(userid, text=answer, reply_markup=join_channel_markup)
+        bot.send_message(userid, text=answer)
         return job
 
     def __repr__(self):

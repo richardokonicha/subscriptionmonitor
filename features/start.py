@@ -1,5 +1,6 @@
-from config import bot, wcapi, scheduler
+from config import bot, wcapi, scheduler, channel_link
 import re
+import telebot
 from database import BstPage
 import database as db
 # from telethon_client import bot_client, main, kick
@@ -50,7 +51,7 @@ def start(message):
         if orderid == 101010:
             # for test
             productid = 101010
-            ordername = "1 minutes test"
+            ordername = "3 minutes test"
         else:
             try:
                 productid = data['line_items'][0]['product_id']
@@ -75,14 +76,30 @@ def start(message):
         #     update_warning()
 
         answer = f"""
-Hello {username},
-Your subscription for {ordername} has been processed
-Your subscription expires {subscribedto}
+Hi {username},
+
+🟢Your subscription for {ordername} has been processed 
+
+you now have access to Premium VIP forex signals
+
+Your subscription would last until {subscribedto}
+
+Info @bsttrading 
+
+BsTTeam
+
+Click this link to join
+
 """
     else:
         answer = f"""Order number {orderid} has already been used"""
 
-    bot.send_message(userid, text=answer)
+    join_channel_markup = telebot.types.InlineKeyboardMarkup()
+    join_channel_button = telebot.types.InlineKeyboardButton(
+        text="Join Now ✅", url=channel_link, callback_data="join_channel")
+    join_channel_markup.add(join_channel_button)
+
+    bot.send_message(userid, text=answer, reply_markup=join_channel_markup)
 
     # except:
     #     username = message.from_user.first_name

@@ -9,6 +9,10 @@ import telebot
 from woocommerce import API
 from dotenv import load_dotenv
 import os
+import logging
+
+logging.basicConfig()
+logging.getLogger('apscheduler').setLevel(logging.DEBUG)
 load_dotenv()
 
 ckey = os.getenv("ckey")
@@ -18,6 +22,10 @@ token = os.getenv("token")
 url = os.getenv("url")
 bst_url = os.getenv("bst_url")
 db_host = os.getenv("db_host")
+channel_link = os.getenv("channel_link")
+api_id = os.getenv("api_id")
+api_hash = os.getenv("api_hash")
+sessionString = os.getenv("sessionString")
 
 
 wcapi = API(
@@ -42,12 +50,13 @@ jobstores = {
     # 'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
 }
 executors = {
-    'default': ThreadPoolExecutor(20),
-    'processpool': ProcessPoolExecutor(5)
+    # 'default': ThreadPoolExecutor(20),
+    # 'processpool': ProcessPoolExecutor(5)
 }
 job_defaults = {
-    'coalesce': False,
-    'max_instances': 3
+    # 'coalesce': False,
+    'max_instances': 3,
+    'misfire_grace_time': 259200
 }
 scheduler = BackgroundScheduler(
     jobstores=jobstores,
