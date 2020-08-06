@@ -2,6 +2,7 @@ import datetime
 from mongoengine import *
 from mongoengine import connect
 from dotenv import load_dotenv
+import telebot
 import os
 from telethon_client import bot_client, main, kick
 from config import scheduler, bot
@@ -44,7 +45,7 @@ class User(Document):
     def subscribed_to(self, productid, orderid):
         # self.orders.append(orderid)
         if productid == 101010:
-            subscribed_time = datetime.timedelta(minutes=3)
+            subscribed_time = datetime.timedelta(minutes=1)
 
         if productid == 978:
             # 1 month subscription
@@ -69,7 +70,8 @@ class User(Document):
     def kick_user(self):
         # kicks user from group
         userid = self.userid
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
+        bot_client.start()
         main_value = bot_client.loop.run_until_complete(
             kick(userid, channel_name))
 
@@ -82,7 +84,7 @@ class User(Document):
         # adds user to group and schedules date to kick user out
         subscription = self.subscription
         userid = self.userid
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
 
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
@@ -92,9 +94,17 @@ class User(Document):
                                 id=str(userid), replace_existing=True)
         # datetime.date.fromtimestamp(1694016856.557)
         # job.trigger.run_date
-        answer = main_value['newuser']
-        bot.send_message(userid, text=answer)
+        # answer = main_value['newuser']
+        answer = "🟢Congratulations! Your subscription has been renewed, click this the link to join🟢"
+        # telebot.types.InlineKeyboardButton(text, url=NULL, callback_data=NULL,
+        #                      switch_inline_query=NULL, switch_inline_query_current_chat=NULL)
 
+        join_channel_markup = telebot.types.InlineKeyboardMarkup()
+        join_channel_button = telebot.types.InlineKeyboardButton(
+            text="Join Now✅", url="https://t.me/joinchat/AAAAAFgIZ9ERpzrOzDH7BA", callback_data="join_channel")
+        join_channel_markup.add(join_channel_button)
+
+        bot.send_message(userid, text=answer, reply_markup=join_channel_markup)
         return job
 
     def __repr__(self):

@@ -50,7 +50,7 @@ def start(message):
         if orderid == 101010:
             # for test
             productid = 101010
-            ordername = "3 minutes test"
+            ordername = "1 minutes test"
         else:
             try:
                 productid = data['line_items'][0]['product_id']
@@ -88,3 +88,10 @@ Your subscription expires {subscribedto}
     #     username = message.from_user.first_name
     #     text = f"Hello {username} Please purchase a plan for bst website to join the VIP group"
     #     bot.send_message(userid, text=text)
+
+
+@bot.callback_query_handler(func=lambda call: call.data == "join_channel")
+def join_channel(call):
+    user_id = call.from_user.id
+    message_id = call.message.message_id
+    pass
