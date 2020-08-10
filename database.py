@@ -45,7 +45,7 @@ class User(Document):
     def subscribed_to(self, productid, orderid):
         # self.orders.append(orderid)
         if productid == 101010:
-            subscribed_time = datetime.timedelta(minutes=1)
+            subscribed_time = datetime.timedelta(minutes=3)
 
         if productid == 978:
             # 1 month subscription
@@ -70,10 +70,12 @@ class User(Document):
     def kick_user(self):
         # kicks user from group
         userid = self.userid
+        username = self.username
+
         channel_name = int(os.getenv("channel_name"))
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            kick(userid, channel_name))
+            kick(username, channel_name))
 
         answer = main_value['newuser']
         bot.send_message(userid, text=answer)
@@ -99,11 +101,12 @@ BsTTeam
         # adds user to group and schedules date to kick user out
         subscription = self.subscription
         userid = self.userid
+        username = self.username
         channel_name = int(os.getenv("channel_name"))
 
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            main(userid, channel_name))
+            main(username, channel_name))
 
         warn_date = self.subscription - datetime.timedelta(days=1)
         jobwarn = scheduler.add_job(self.warn_user, 'date', run_date=warn_date,
