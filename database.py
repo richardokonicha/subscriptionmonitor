@@ -45,7 +45,7 @@ class User(Document):
     def subscribed_to(self, productid, orderid):
         # self.orders.append(orderid)
         if productid == 101010:
-            subscribed_time = datetime.timedelta(minutes=3)
+            subscribed_time = datetime.timedelta(minutes=1)
 
         if productid == 978:
             # 1 month subscription
