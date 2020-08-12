@@ -80,17 +80,18 @@ Hi {username},
 
 🟢Your subscription for {ordername} has been processed 
 
-you now have access to Premium VIP forex signals
+You now have access to Premium VIP forex signals
 
 Your subscription would last until {subscribedto}
 
-Info @bsttrading 
+PLEASE READ THE PINNED MESSAGE IN VIP AND FOLLOW MONEY MANAGEMENT! 
+
+Info @bsttrading
 
 BsTTeam
 
 Click this link to join
-
-"""
+    """
     else:
         answer = f"""Order number {orderid} has already been used"""
 
