@@ -93,13 +93,13 @@ BsTTeam
 
 Click this link to join
     """
+        join_channel_markup = telebot.types.InlineKeyboardMarkup()
+        join_channel_button = telebot.types.InlineKeyboardButton(
+            text="Join Now ✅", url=channel_link, callback_data="join_channel")
+        join_channel_markup.add(join_channel_button)
     else:
         answer = f"""Order number {orderid} has already been used"""
-
-    join_channel_markup = telebot.types.InlineKeyboardMarkup()
-    join_channel_button = telebot.types.InlineKeyboardButton(
-        text="Join Now ✅", url=channel_link, callback_data="join_channel")
-    join_channel_markup.add(join_channel_button)
+        join_channel_markup = None
 
     bot.send_message(userid, text=answer, reply_markup=join_channel_markup)
 
