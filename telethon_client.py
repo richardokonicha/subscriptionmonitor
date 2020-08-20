@@ -27,6 +27,7 @@ async def check_group(user_to_add, channel):
 async def main(user_to_add, channel_name):
     # checks if user is in a group and add users to channel/ group
     channel = await bot_client.get_entity(channel_name)
+    dialogs = await bot_client.get_dialogs()
     user = await bot_client.get_entity(user_to_add)
 
     check = await check_group(user_to_add, channel)

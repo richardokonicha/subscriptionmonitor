@@ -66,6 +66,7 @@ def start(message):
         #     return bot.send_message(userid, text=answer)
 
         bot.send_chat_action(userid, action='typing')
+        bot.send_message(userid, text='Processing ...')
 
         # adds product subscribtion days and stores the order number
         subscribedto = bst_user.subscribed_to(
