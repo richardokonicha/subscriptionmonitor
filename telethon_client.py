@@ -36,7 +36,7 @@ async def main(user_to_add, channel_name):
     else:
         newuser = f'🟢 Congratulations! {channel.title}'
         # result = await bot_client(InviteToChannelRequest(channel.id, [user_to_add]))
-        result = await bot_client(EditBannedRequest(channel.id, user_to_add, ChatBannedRights(until_date=None, view_messages=False)))
+        result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=False)))
 
     return {"channel": channel.title, "newuser": newuser}
 
