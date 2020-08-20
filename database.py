@@ -105,6 +105,9 @@ BsTTeam
         channel_name = int(os.getenv("channel_name"))
 
         bot_client.start()
+        if username == None:
+            username = self.userid
+
         main_value = bot_client.loop.run_until_complete(
             main(username, channel_name))
 
