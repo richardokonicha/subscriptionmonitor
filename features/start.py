@@ -18,6 +18,7 @@ def start(message):
     userid = message.from_user.id
 
     # get user object
+    bot.send_chat_action(userid, action='typing')
     bst_user = db.User.objects(userid=userid).first()
     if bst_user == None:
         username = message.from_user.username if message.from_user.username != " " else message.from_user.first_name
