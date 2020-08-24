@@ -52,8 +52,8 @@ def start(message):
             productid = 101010
             ordername = "3 minutes test"
         else:
-            bst_user.orders.append(orderid)
-            bst_user.save()
+            # bst_user.orders.append(orderid)
+            # bst_user.save()
             try:
                 productid = data['line_items'][0]['product_id']
                 ordername = data['line_items'][0]['name']
@@ -71,6 +71,10 @@ def start(message):
         # adds product subscribtion days and stores the order number
         subscribedto = bst_user.subscribed_to(
             productid, orderid).strftime("%A %d %B %Y")
+
+        if orderid != 101010:
+            bst_user.orders.append(orderid)
+            bst_user.save()
         # if user not in group:
         # set_user_bst(bst_user)
         #     update_warning()
