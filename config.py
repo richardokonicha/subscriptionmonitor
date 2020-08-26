@@ -9,6 +9,8 @@ import telebot
 from woocommerce import API
 from dotenv import load_dotenv
 import os
+import telebot
+
 import logging
 
 logging.basicConfig()
@@ -27,6 +29,10 @@ api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
 sessionString = os.getenv("sessionString")
 
+join_channel_markup = telebot.types.InlineKeyboardMarkup()
+join_channel_button = telebot.types.InlineKeyboardButton(
+    text="Join Now ✅", url=channel_link, callback_data="join_channel")
+join_channel_markup.add(join_channel_button)
 
 wcapi = API(
     url=bst_url,

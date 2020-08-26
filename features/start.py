@@ -21,7 +21,8 @@ def start(message):
     bot.send_chat_action(userid, action='typing')
     bst_user = db.User.objects(userid=userid).first()
     if bst_user == None:
-        username = message.from_user.username if message.from_user.username != " " else message.from_user.first_name
+        username = message.from_user.username if bool(
+            message.from_user.username) else message.from_user.id
         # create new user
         bst_user = db.User(
             userid=userid,
@@ -29,7 +30,8 @@ def start(message):
         )
         bst_user.save()
     else:
-        username = bst_user.username
+        username = bst_user.username = message.from_user.username
+        bst_user.save()
 
     text = message.text
 
