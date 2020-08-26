@@ -6,6 +6,7 @@ import telebot
 import os
 from telethon_client import bot_client, main, kick
 from config import scheduler, bot
+from bst_entity import entity_client, get_bst_entity
 
 load_dotenv()
 
@@ -71,15 +72,19 @@ class User(Document):
         # kicks user from group
         userid = self.userid
         username = self.username
-
         channel_name = int(os.getenv("channel_name"))
+
+        entity_client.start()
+        user_entity = entity_client.loop.run_until_complete(
+            get_bst_entity(userid))
+        entity_client.disconnect()
+
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            kick(username, channel_name))
+            kick(user_entity, channel_name))
 
         answer = main_value['newuser']
         bot.send_message(userid, text=answer)
-
         print("kicked user lol")
 
     def warn_user(self):
@@ -104,12 +109,18 @@ BsTTeam
         username = self.username
         channel_name = int(os.getenv("channel_name"))
 
-        bot_client.start()
-        if username == None:
-            username = self.userid
+        # gets user entity from id or username
 
+        # if not bool(username):
+        #     username = userid
+        entity_client.start()
+        user_entity = entity_client.loop.run_until_complete(
+            get_bst_entity(userid))
+        entity_client.disconnect()
+
+        bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            main(username, channel_name))
+            main(user_entity, channel_name))
 
         warn_date = self.subscription - datetime.timedelta(days=1)
         jobwarn = scheduler.add_job(self.warn_user, 'date', run_date=warn_date,
