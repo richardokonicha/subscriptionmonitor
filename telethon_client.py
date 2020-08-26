@@ -11,8 +11,7 @@ from config import api_id, api_hash, sessionString
 
 
 # bot_client = TelegramClient('anon', api_id, api_hash)
-bot_client = TelegramClient(
-    StringSession(sessionString), api_id, api_hash)
+bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
 
 
 async def check_group(user_to_add, channel):

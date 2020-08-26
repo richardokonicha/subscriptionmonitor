@@ -28,7 +28,6 @@ channel_link = os.getenv("channel_link")
 api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
 sessionString = os.getenv("sessionString")
-bot_sessionString = os.getenv("bot_sessionString")
 
 join_channel_markup = telebot.types.InlineKeyboardMarkup()
 join_channel_button = telebot.types.InlineKeyboardButton(
