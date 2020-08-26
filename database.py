@@ -6,7 +6,6 @@ import telebot
 import os
 from telethon_client import bot_client, main, kick
 from config import scheduler, bot
-from bst_entity import entity_client, get_bst_entity
 
 load_dotenv()
 
@@ -73,15 +72,9 @@ class User(Document):
         userid = self.userid
         username = self.username
         channel_name = int(os.getenv("channel_name"))
-
-        entity_client.start()
-        user_entity = entity_client.loop.run_until_complete(
-            get_bst_entity(userid))
-        entity_client.disconnect()
-
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            kick(user_entity, channel_name))
+            kick(userid, channel_name))
 
         answer = main_value['newuser']
         bot.send_message(userid, text=answer)
@@ -109,18 +102,9 @@ BsTTeam
         username = self.username
         channel_name = int(os.getenv("channel_name"))
 
-        # gets user entity from id or username
-
-        # if not bool(username):
-        #     username = userid
-        entity_client.start()
-        user_entity = entity_client.loop.run_until_complete(
-            get_bst_entity(userid))
-        entity_client.disconnect()
-
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            main(user_entity, channel_name))
+            main(userid, channel_name))
 
         warn_date = self.subscription - datetime.timedelta(days=1)
         jobwarn = scheduler.add_job(self.warn_user, 'date', run_date=warn_date,

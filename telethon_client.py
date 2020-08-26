@@ -25,8 +25,7 @@ async def check_group(user_to_add, channel):
 async def main(user_to_add, channel_name):
     # checks if user is in a group and add users to channel/ group
     channel = await bot_client.get_entity(channel_name)
-    # user = await bot_client.get_entity(user_to_add)
-    user = user_to_add
+    user = await bot_client.get_entity(user_to_add)
     check = await check_group(user_to_add, channel)
     if check:
         newuser = f'🟢 Subscription Renewed'
@@ -39,8 +38,7 @@ async def main(user_to_add, channel_name):
 
 async def kick(user_to_add, channel_name):
     channel = await bot_client.get_entity(channel_name)
-    # user = await bot_client.get_entity(user_to_add)
-    user = user_to_add
+    user = await bot_client.get_entity(user_to_add)
     result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=True)))
     newuser = f"""
     
