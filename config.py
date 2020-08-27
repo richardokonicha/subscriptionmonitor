@@ -52,7 +52,7 @@ bot = telebot.TeleBot(
 client = pymongo.MongoClient(db_host)
 
 jobstores = {
-    'default': MongoDBJobStore(client=client, database="test", HOST="realmcluster-shard-00-02.yjlnu.mongodb.net"),
+    'default': MongoDBJobStore(client=client, database="bst-sub-monitor-db", HOST="mongodb://iad2-c12-1.mongo.objectrocket.com:53267"),
     # 'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
 }
 executors = {
