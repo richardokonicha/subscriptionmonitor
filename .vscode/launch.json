@@ -23,14 +23,14 @@
       "name": "Python: Current File",
       "type": "python",
       "request": "launch",
-      "program": "${file}",
+      "program": "monitor.py",
       "console": "integratedTerminal"
     },
     {
       "name": "Python: Current File",
       "type": "python",
       "request": "launch",
-      "program": "monitor.py",
+      "program": "${file}",
       "console": "integratedTerminal"
     }
   ]
