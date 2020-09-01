@@ -15,7 +15,7 @@ import logging
 
 logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.DEBUG)
-# load_dotenv()
+load_dotenv()
 
 #  select 2 premium group enviroment variable set 1 for bst environment
 pipeline = 2
@@ -34,11 +34,12 @@ api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
 channel_link = os.getenv("channel_link")
 db_host = os.getenv("db_host")
+db_name = os.getenv("db_name")
 heroku_url = os.getenv("heroku_url")
 wordpress_url = os.getenv("wordpress_url")
 debug = (os.getenv("DEBUG") == "True")
 
-print("Environment is " + environment)
+# print(f"Environment is {environment}")
 
 sessionString = os.getenv("sessionString")
 join_channel_markup = telebot.types.InlineKeyboardMarkup()
@@ -64,7 +65,7 @@ bot = telebot.TeleBot(
 client = pymongo.MongoClient(db_host)
 
 jobstores = {
-    'default': MongoDBJobStore(client=client, database="premium-db", HOST="mongodb://iad2-c12-1.mongo.objectrocket.com:53267"),
+    'default': MongoDBJobStore(client=client, database=db_name, HOST="mongodb://iad2-c12-1.mongo.objectrocket.com:53267"),
     # 'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
 }
 executors = {
