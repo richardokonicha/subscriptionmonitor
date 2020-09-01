@@ -15,27 +15,39 @@ import logging
 
 logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.DEBUG)
-load_dotenv()
+# load_dotenv()
 
+#  select 2 premium group enviroment variable set 1 for bst environment
+pipeline = 2
+if pipeline == 1:
+    load_dotenv(dotenv_path="bst.env")
+if pipeline == 2:
+    load_dotenv(dotenv_path="premium.env")
+# premium_channel = os.getenv()
+
+environment = os.getenv("environment")
+sessionString = os.getenv("sessionString")
+token = os.getenv("token")
 ckey = os.getenv("ckey")
 csecret = os.getenv("csecret")
-debug = (os.getenv("DEBUG") == 'True')
-token = os.getenv("token")
-url = os.getenv("url")
-bst_url = os.getenv("bst_url")
-db_host = os.getenv("db_host")
-channel_link = os.getenv("channel_link")
 api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
-sessionString = os.getenv("sessionString")
+channel_link = os.getenv("channel_link")
+db_host = os.getenv("db_host")
+heroku_url = os.getenv("heroku_url")
+wordpress_url = os.getenv("wordpress_url")
+debug = (os.getenv("DEBUG") == "True")
 
+print("Environment is " + environment)
+
+sessionString = os.getenv("sessionString")
 join_channel_markup = telebot.types.InlineKeyboardMarkup()
 join_channel_button = telebot.types.InlineKeyboardButton(
     text="Join Now ✅", url=channel_link, callback_data="join_channel")
 join_channel_markup.add(join_channel_button)
 
 wcapi = API(
-    url=bst_url,
+    url=wordpress_url,
     consumer_key=ckey,
     consumer_secret=csecret,
     version="wc/v3"
@@ -52,7 +64,7 @@ bot = telebot.TeleBot(
 client = pymongo.MongoClient(db_host)
 
 jobstores = {
-    'default': MongoDBJobStore(client=client, database="bst-sub-monitor-db", HOST="mongodb://iad2-c12-1.mongo.objectrocket.com:53267"),
+    'default': MongoDBJobStore(client=client, database="premium-db", HOST="mongodb://iad2-c12-1.mongo.objectrocket.com:53267"),
     # 'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
 }
 executors = {
