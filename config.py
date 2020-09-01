@@ -36,6 +36,7 @@ channel_link = os.getenv("channel_link")
 db_host = os.getenv("db_host")
 heroku_url = os.getenv("heroku_url")
 wordpress_url = os.getenv("wordpress_url")
+debug = (os.getenv("DEBUG") == "True")
 
 print("Environment is " + environment)
 
@@ -63,8 +64,8 @@ bot = telebot.TeleBot(
 client = pymongo.MongoClient(db_host)
 
 jobstores = {
-    # 'default': MongoDBJobStore(client=client),
-    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+    'default': MongoDBJobStore(client=client, database="premium-db", HOST="mongodb://iad2-c12-1.mongo.objectrocket.com:53267"),
+    # 'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
 }
 executors = {
     # 'default': ThreadPoolExecutor(20),

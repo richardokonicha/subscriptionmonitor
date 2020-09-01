@@ -5,22 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "npm",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "debug"],
-      "runtimeExecutable": "npm",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "pwa-node"
-    },
-    {
-      "name": "monitor",
-      "program": "bode/monitor.js",
-      "request": "launch",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "pwa-node"
-    },
-    {
-      "name": "Python: Current File",
+      "name": "Monitor",
       "type": "python",
       "request": "launch",
       "program": "monitor.py",
