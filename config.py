@@ -38,7 +38,7 @@ heroku_url = os.getenv("heroku_url")
 wordpress_url = os.getenv("wordpress_url")
 debug = (os.getenv("DEBUG") == "True")
 
-print("Environment is " + environment)
+print(f"Environment is {environment}")
 
 sessionString = os.getenv("sessionString")
 join_channel_markup = telebot.types.InlineKeyboardMarkup()
