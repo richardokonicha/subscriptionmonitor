@@ -61,7 +61,7 @@ class User(Document):
 
         if productid == 981:
             # 1 year subscription
-            subscribed_time = datetime.timedelta(days=1820)
+            subscribed_time = datetime.timedelta(weeks=4000)
 
         subscription = self.addsubscription(subscribed_time)
         job = self.set_user_bst()
@@ -71,15 +71,13 @@ class User(Document):
         # kicks user from group
         userid = self.userid
         username = self.username
-
         channel_name = int(os.getenv("channel_name"))
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            kick(username, channel_name))
+            kick(userid, channel_name))
 
         answer = main_value['newuser']
         bot.send_message(userid, text=answer)
-
         print("kicked user lol")
 
     def warn_user(self):
@@ -106,7 +104,7 @@ BsTTeam
 
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
-            main(username, channel_name))
+            main(userid, channel_name))
 
         warn_date = self.subscription - datetime.timedelta(days=1)
         jobwarn = scheduler.add_job(self.warn_user, 'date', run_date=warn_date,
