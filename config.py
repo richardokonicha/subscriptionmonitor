@@ -13,23 +13,32 @@ import logging
 
 logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.DEBUG)
-load_dotenv()
+# load_dotenv()
 
+#  select 2 premium group enviroment variable set 1 for bst environment
+pipeline = 2
+if pipeline == 1:
+    load_dotenv(dotenv_path="bst.env")
+if pipeline == 2:
+    load_dotenv(dotenv_path="premium.env")
+# premium_channel = os.getenv()
+
+environment = os.getenv("environment")
+sessionString = os.getenv("sessionString")
+token = os.getenv("token")
 ckey = os.getenv("ckey")
 csecret = os.getenv("csecret")
-debug = (os.getenv("DEBUG") == 'True')
-token = os.getenv("token")
-url = os.getenv("url")
-bst_url = os.getenv("bst_url")
-db_host = os.getenv("db_host")
-channel_link = os.getenv("channel_link")
 api_id = os.getenv("api_id")
 api_hash = os.getenv("api_hash")
-sessionString = os.getenv("sessionString")
-
+debug = (os.getenv("DEBUG") == 'True')
+channel_link = os.getenv("channel_link")
+db_host = os.getenv("db_host")
+heroku_url = os.getenv("heroku_url")
+wordpress_url = os.getenv("wordpress_url")
+print("Environment is " + environment)
 
 wcapi = API(
-    url=bst_url,
+    url=wordpress_url,
     consumer_key=ckey,
     consumer_secret=csecret,
     version="wc/v3"
@@ -46,8 +55,8 @@ bot = telebot.TeleBot(
 client = pymongo.MongoClient(db_host)
 
 jobstores = {
-    'default': MongoDBJobStore(client=client, database="test", HOST="realmcluster-shard-00-02.yjlnu.mongodb.net"),
-    # 'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+    # 'default': MongoDBJobStore(client=client),
+    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
 }
 executors = {
     # 'default': ThreadPoolExecutor(20),

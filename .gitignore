@@ -6,3 +6,4 @@ extra
 features/__pycache__/
 *.session
 *.env
+*.sqlite

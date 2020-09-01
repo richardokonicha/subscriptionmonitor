@@ -5,7 +5,7 @@ from flask import Flask, request
 # from urllib import unquote_plus
 import json
 import re
-from config import (wcapi, token, debug, url, bot, telebot)
+from config import (wcapi, token, debug, heroku_url, bot, telebot)
 import os
 
 server = Flask(__name__)
@@ -34,10 +34,10 @@ def getMessage():
 
 @server.route('/hook')
 def webhook():
-    jurl = url
+    jurl = heroku_url
     bot.remove_webhook()
     bot.set_webhook(jurl + token)
-    return f"Webhook set to {url}"
+    return f"Webhook set to {heroku_url}"
 
 
 if debug == True:
