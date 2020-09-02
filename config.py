@@ -15,7 +15,7 @@ import logging
 
 logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.DEBUG)
-# load_dotenv()
+load_dotenv()
 
 #  select 2 premium group enviroment variable set 1 for bst environment
 pipeline = 2
