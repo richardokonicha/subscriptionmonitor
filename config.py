@@ -39,7 +39,6 @@ heroku_url = os.getenv("heroku_url")
 wordpress_url = os.getenv("wordpress_url")
 debug = (os.getenv("DEBUG") == "True")
 
-
 print(f"Environment is {environment}")
 
 sessionString = os.getenv("sessionString")
