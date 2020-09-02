@@ -39,8 +39,7 @@ heroku_url = os.getenv("heroku_url")
 wordpress_url = os.getenv("wordpress_url")
 debug = (os.getenv("DEBUG") == "True")
 
-# print(f"Environment is {environment}")
-print(environment)
+print(f"Environment is {environment}")
 
 sessionString = os.getenv("sessionString")
 join_channel_markup = telebot.types.InlineKeyboardMarkup()
@@ -52,8 +51,11 @@ wcapi = API(
     url=wordpress_url,
     consumer_key=ckey,
     consumer_secret=csecret,
-    version="wc/v3"
+    wp_api=True,
+    version="wc/v3",
+    query_string_auth=True
 )
+
 
 bot = telebot.TeleBot(
     token,
