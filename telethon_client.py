@@ -7,8 +7,7 @@ from telethon.sessions import StringSession
 from dotenv import load_dotenv
 import os
 import datetime
-from config import api_id, api_hash, sessionString
-
+from config import api_id, api_hash, sessionString, environment, wordpress_url
 
 # bot_client = TelegramClient('anon', api_id, api_hash)
 bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
@@ -43,11 +42,11 @@ async def kick(user_to_add, channel_name):
     
 🔴 Your subscription has ended Renew it to have access VIP
 
-Www.bst-forexgroup.com
+{wordpress_url}
 
-Info @bsttrading 
+Info @{environment}trading 
 
-BsTTeam
+{environment} forex Team
     """
     return {"channel": channel.title, "newuser": newuser}
 

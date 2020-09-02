@@ -1,4 +1,4 @@
-from config import bot, wcapi, scheduler, channel_link
+from config import bot, wcapi, scheduler, channel_link, environment
 import re
 import telebot
 from database import BstPage
@@ -16,14 +16,11 @@ def get_order(load):
 @bot.message_handler(commands=["start", "Start"])
 def start(message):
     userid = message.from_user.id
-
     # get user object
     bot.send_chat_action(userid, action='typing')
     bst_user = db.User.objects(userid=userid).first()
     if bst_user == None:
         username = message.from_user.username
-        # if bool(
-        #     message.from_user.username) else message.from_user.id
         # create new user
         bst_user = db.User(
             userid=userid,
@@ -32,8 +29,6 @@ def start(message):
         bst_user.save()
     else:
         username = bst_user.username = message.from_user.username
-        #  if bool(
-        #     message.from_user.username) else str(message.from_user.id)
         bst_user.save()
 
     text = message.text
@@ -63,9 +58,6 @@ def start(message):
             except KeyError:
                 answer = "Invalid Order ID please place an order"
                 return bot.send_message(userid, text=answer)
-        # if data['status'] == "failed":
-        #     answer = "Your order failed please make another order"
-        #     return bot.send_message(userid, text=answer)
         bot.send_chat_action(userid, action='typing')
         bot.send_message(userid, text='Processing ...')
 
@@ -76,12 +68,6 @@ def start(message):
         if orderid != 101010:
             bst_user.orders.append(orderid)
             bst_user.save()
-        # if user not in group:
-        # set_user_bst(bst_user)
-        #     update_warning()
-        # else:
-        #     update_warning()
-
         answer = f"""
 Hi {username},
 
@@ -93,9 +79,9 @@ Your subscription would last until {subscribedto}
 
 PLEASE READ THE PINNED MESSAGE IN VIP AND FOLLOW MONEY MANAGEMENT! 
 
-Info @bsttrading
+Info @{environment}trading
 
-BsTTeam
+{environment} forex Team
 
 Click this link to join
     """
@@ -108,11 +94,6 @@ Click this link to join
         join_channel_markup = None
 
     bot.send_message(userid, text=answer, reply_markup=join_channel_markup)
-
-    # except:
-    #     username = message.from_user.first_name
-    #     text = f"Hello {username} Please purchase a plan for bst website to join the VIP group"
-    #     bot.send_message(userid, text=text)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "join_channel")
