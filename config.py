@@ -51,8 +51,11 @@ wcapi = API(
     url=wordpress_url,
     consumer_key=ckey,
     consumer_secret=csecret,
-    version="wc/v3"
+    wp_api=True,
+    version="wc/v3",
+    query_string_auth=True
 )
+
 
 bot = telebot.TeleBot(
     token,

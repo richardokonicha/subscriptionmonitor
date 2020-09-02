@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import telebot
 import os
 from telethon_client import bot_client, main, kick
-from config import scheduler, bot
+from config import scheduler, bot, wordpress_url, environment
 
 load_dotenv()
 
@@ -84,14 +84,14 @@ class User(Document):
         # kicks user from group
         userid = self.userid
 
-        answer = """
+        answer = f"""
 ⚠️Warning your subscription is ending soon please Renew it to have access VIP
 
-Www.bst-forexgroup.com
+{wordpress_url}
 
-Info @bsttrading 
+Info @{environment}trading 
 
-BsTTeam
+{environment} forex Team
         """
         bot.send_message(userid, text=answer)
 
