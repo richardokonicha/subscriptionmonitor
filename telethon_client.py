@@ -40,7 +40,7 @@ async def kick(user_to_add, channel_name):
     result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=True)))
     newuser = f"""
     
-🔴 Your subscription has ended Renew it to have access VIP
+🔴 Your subscription has ended Renew it to have access PREMIUM
 
 {wordpress_url}
 

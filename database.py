@@ -89,9 +89,10 @@ class User(Document):
 
 {wordpress_url}
 
-Info @{environment}trading 
+Info @{environment}
 
-{environment} forex Team
+
+{environment} Team
         """
         bot.send_message(userid, text=answer)
 

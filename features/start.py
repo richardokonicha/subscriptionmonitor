@@ -79,9 +79,9 @@ Your subscription would last until {subscribedto}
 
 PLEASE READ THE PINNED MESSAGE IN VIP AND FOLLOW MONEY MANAGEMENT! 
 
-Info @{environment}trading
+Info @{environment}
 
-{environment} forex Team
+{environment} Team
 
 Click this link to join
     """
