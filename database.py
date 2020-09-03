@@ -71,7 +71,7 @@ class User(Document):
         # kicks user from group
         userid = self.userid
         username = self.username
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
             kick(userid, channel_name))
@@ -101,7 +101,7 @@ Info @{environment}
         subscription = self.subscription
         userid = self.userid
         username = self.username
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
 
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(

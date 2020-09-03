@@ -1,13 +1,13 @@
 from telethon import TelegramClient
-from config import api_hash, api_id, bot_sessionString
+from config import api_hash, api_id, sessionString
 from telethon.sessions import StringSession
 
 
 entity_client = TelegramClient(
-    StringSession(bot_sessionString), api_id, api_hash)
+    StringSession(sessionString), api_id, api_hash)
 
 # entity_client = TelegramClient(
-#     'b0t', 1347918, '5681581438678d9390cd4f67ee764f82')
+#     'anon', api_id, api_hash)
 
 
 async def get_bst_entity(user_id):
@@ -16,4 +16,5 @@ async def get_bst_entity(user_id):
     return user
 
 # entity_client.start()
-# entity_client.loop.run_until_complete(get_bst_entity(1159640443))
+# entity_client.loop.run_until_complete(get_bst_entity(
+#     ""))
