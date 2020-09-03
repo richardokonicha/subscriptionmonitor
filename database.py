@@ -71,7 +71,7 @@ class User(Document):
         # kicks user from group
         userid = self.userid
         username = self.username
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
             kick(userid, channel_name))
@@ -101,7 +101,7 @@ Info @{environment}
         subscription = self.subscription
         userid = self.userid
         username = self.username
-        channel_name = os.getenv("channel_name")
+        channel_name = int(os.getenv("channel_name"))
 
         bot_client.start()
         main_value = bot_client.loop.run_until_complete(
@@ -115,11 +115,7 @@ Info @{environment}
                                 id=str(userid), replace_existing=True, name=f"kick_user {self.username}")
 
         # datetime.date.fromtimestamp(1694016856.557)
-        # job.trigger.run_date
         answer = main_value['newuser']
-        # answer = "🟢Congratulations! Your subscription has been renewed, click this the link to join🟢"
-        # telebot.types.InlineKeyboardButton(text, url=NULL, callback_data=NULL,
-        #                      switch_inline_query=NULL, switch_inline_query_current_chat=NULL)
         bot.send_message(userid, text=answer)
         return job
 
@@ -134,7 +130,3 @@ class BstPage(Document):
     phone = IntField(unique=True)
     product_id = IntField()
     expire = DateTimeField()
-
-# import pymongo
-# client = pymongo.MongoClient("mongodb+srv://monitor:monitor>@realmcluster.yjlnu.mongodb.net/<dbname>?retryWrites=true&w=majority")
-# db = client.test
