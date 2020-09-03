@@ -44,6 +44,7 @@ def start(message):
     checkorder = db.User.objects(orders=orderid)
     if bool(checkorder) == False:
         data = get_order(orderid)
+        print(data)
         # adds orderid to list of orders
         if orderid == 101010:
             # for test
