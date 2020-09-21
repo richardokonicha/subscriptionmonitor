@@ -6,10 +6,17 @@ import database as db
 # from telethon_client import bot_client, main, kick
 # from utils import cll
 import asyncio
+import requests
+import time
 
 
 def get_order(load):
-    data = wcapi.get(f"orders/{load}").json()
+    try:
+        data = wcapi.get(f"orders/{load}").json()
+    except requests.exceptions.ReadTimeout:
+        print("Timeout occurred, trying again")
+        time.sleep(2)
+        data = wcapi.get(f"orders/{load}").json()
     return data
 
 
