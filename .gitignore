@@ -7,3 +7,4 @@ features/__pycache__/
 *.session
 *.env
 *.sqlite
+subscription-env/

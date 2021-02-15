@@ -62,9 +62,12 @@ class User(Document):
         if productid == 981:
             # 1 year subscription
             subscribed_time = datetime.timedelta(weeks=4000)
-
-        subscription = self.addsubscription(subscribed_time)
-        job = self.set_user_bst()
+        
+        if subscribed_time:
+            subscription = self.addsubscription(subscribed_time)
+            job = self.set_user_bst()
+        else:
+            print("subscribed time is null")
         return subscription
 
     def kick_user(self):
