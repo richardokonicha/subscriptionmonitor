@@ -11,12 +11,15 @@ import time
 
 
 def get_order(load):
+    data = {}
     try:
         data = wcapi.get(f"orders/{load}").json()
     except requests.exceptions.ReadTimeout:
+        
         print("Timeout occurred, trying again")
-        time.sleep(2)
-        data = wcapi.get(f"orders/{load}").json()
+        time.sleep(3)
+        # data = wcapi.get(f"orders/{load}").json()
+        get_order(load)
     return data
 
 
