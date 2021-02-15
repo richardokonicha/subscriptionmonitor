@@ -37,7 +37,7 @@ db_host = os.getenv("db_host")
 db_name = os.getenv("db_name")
 heroku_url = os.getenv("heroku_url")
 wordpress_url = os.getenv("wordpress_url")
-debug = (os.getenv("DEBUG") == "True")
+debug = (os.getenv("debug") == "True")
 
 print(f"Environment is {environment}")
 
