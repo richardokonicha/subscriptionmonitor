@@ -92,7 +92,7 @@ class User(Document):
 
 {wordpress_url}
 
-Info @{environment}trading 
+Info @{environment}
 
 {environment} forex Team
         """

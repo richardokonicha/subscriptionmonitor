@@ -48,6 +48,7 @@ join_channel_button = telebot.types.InlineKeyboardButton(
 join_channel_markup.add(join_channel_button)
 
 wcapi = API(
+    timeout=10,
     url=wordpress_url,
     consumer_key=ckey,
     consumer_secret=csecret,
