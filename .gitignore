@@ -8,3 +8,4 @@ features/__pycache__/
 *.env
 *.sqlite
 anon.session-journal
+subscript-env/
