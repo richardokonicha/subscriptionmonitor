@@ -1,4 +1,5 @@
-from telethon.sync import TelegramClient
+# from telethon.sync import TelegramClient
+from telethon import TelegramClient
 from telethon.tl.functions.messages import AddChatUserRequest, GetFullChatRequest, SendMessageRequest
 from telethon.tl.functions.channels import JoinChannelRequest, InviteToChannelRequest
 from telethon.tl.functions.channels import EditBannedRequest
