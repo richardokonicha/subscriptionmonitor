@@ -41,6 +41,7 @@ debug = (os.getenv("DEBUG") == "True")
 
 print(f"Environment is {environment}")
 
+sessionString = os.getenv("sessionString")
 join_channel_markup = telebot.types.InlineKeyboardMarkup()
 join_channel_button = telebot.types.InlineKeyboardButton(
     text="Join Now ✅", url=channel_link, callback_data="join_channel")
