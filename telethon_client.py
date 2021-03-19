@@ -10,7 +10,9 @@ import datetime
 from config import api_id, api_hash, sessionString, environment, wordpress_url, token
 
 # bot_client = TelegramClient('anon', api_id, api_hash)
-bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash).start(bot_token=token)
+bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
+
+# .start(bot_token=token)
 
 
 async def check_group(user_to_add, channel):
