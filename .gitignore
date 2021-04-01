@@ -9,3 +9,6 @@ features/__pycache__/
 *.sqlite
 anon.session-journal
 subscript-env/
+heroku_version/
+premium.txt
+eviron.txt
