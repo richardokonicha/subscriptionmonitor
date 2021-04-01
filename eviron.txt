@@ -1,0 +1,16 @@
+=== premium-sub-monitor Config Vars
+LOGDNA_KEY:    ["266c411eab555f05e391f3442da5ca13"]
+api_hash:      5681581438678d9390cd4f67ee764f82
+api_id:        1347918
+channel_link:  https://t.me/joinchat/AAAAAE0Ww2mT7NMoS6l3rg
+channel_name:  -1001293337449
+ckey:          ck_e5cfccf799f1f3bda63f2b413f77bb9582c491a0
+csecret:       cs_3c2c1ebe4c59bb049d2f954633098ef49b29bc59
+db_host:       mongodb://smonitor:smonitor@iad2-c12-1.mongo.objectrocket.com:53267,iad2-c12-2.mongo.objectrocket.com:53267,iad2-c12-0.mongo.objectrocket.com:53267/premium-db?replicaSet=dc0ab31b0a714336af774d81ee494b10
+db_name:       premium-db
+debug:         False
+environment:   premiumfxs
+heroku_url:    https://premium-sub-monitor.herokuapp.com/
+sessionString: 1BJWap1sBuwNU5fhbIOQJIaRf8CVemO6vJA7Hriw9PIm6u7RsTdU0BRXZPRZG4KfM651nX8Ck5_2V5JDnl7I8tqNwsjLp4GgYsVYpDvh1kji1Yer355-EjyvWo9KQkAlx9R_p1LCi1DTcvHnemG2wr78ZYvPLnwChMOjw3Id58AFrkSvzGjwLcwhRyH7SwcQggLG15kfYZIWUMIQPP32r1T9o6wPex9XvfH9B1MdhL7V-OWxrrno5H1LpVh9XLl9KQ4dkcIh50uvlzocquoXZxCM5FUEpyRQdCa5TGtpW_d3b0xeXC0d0o_NrvM0R5guCxQMWzjSc3S9GzYhkp4mXdgp49e_Akn4=
+token:         1307614893:AAGVX92cdaiYSUBIhwSVr9XDEIhXXSmuDuI
+wordpress_url: https://www.premium-forex.com/

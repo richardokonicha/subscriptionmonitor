@@ -50,6 +50,7 @@ def start(message):
     orderid = int(load)
     # checks if orderid has been used
     checkorder = db.User.objects(orders=orderid)
+    checkorder = False
     if bool(checkorder) == False:
         data = get_order(orderid)
         print(data)

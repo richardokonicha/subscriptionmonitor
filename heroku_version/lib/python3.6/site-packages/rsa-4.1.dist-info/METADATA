@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: rsa
+Version: 4.1
+Summary: Pure-Python RSA implementation
+Home-page: https://stuvel.eu/rsa
+License: Apache-2.0
+Author: Sybren A. Stüvel
+Author-email: sybren@stuvel.eu
+Requires-Python: >=3.5,<4.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Security :: Cryptography
+Requires-Dist: pyasn1 (>=0.1.3)
+Requires-Dist: pysha3 (>=1.0,<2.0); python_version >= "3.5" and python_version < "3.6"
+Project-URL: Documentation, https://stuvel.eu/python-rsa-doc/
+Project-URL: Repository, https://github.com/sybrenstuvel/python-rsa/
