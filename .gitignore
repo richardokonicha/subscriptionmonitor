@@ -1,10 +1,14 @@
 node_modules/
 extra
 .env
-
+__pycache__/
 *.pyc
 features/__pycache__/
 *.session
 *.env
 *.sqlite
 anon.session-journal
+subscript-env/
+heroku_version/
+premium.txt
+eviron.txt
