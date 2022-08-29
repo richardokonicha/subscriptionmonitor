@@ -43,6 +43,7 @@ class User(Document):
             return self.subscription
 
     def subscribed_to(self, productid, orderid):
+        print(productid, orderid, "product id and orderid respectively")
         # self.orders.append(orderid)
         if productid == 101010:
             subscribed_time = datetime.timedelta(minutes=1)
