@@ -9,3 +9,5 @@ features/__pycache__/
 *.sqlite
 subscription-env/
 subscript-env/
+venv/*
+venv2/

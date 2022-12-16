@@ -5,6 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
       "name": "Monitor",
       "type": "python",
       "request": "launch",
@@ -12,10 +20,10 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Python: Current File",
+      "name": "Worker",
       "type": "python",
       "request": "launch",
-      "program": "${file}",
+      "program": "worker.py",
       "console": "integratedTerminal"
     }
   ]

@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.mongodb import MongoDBJobStore
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+# from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from pytz import utc
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -9,16 +9,22 @@ import telebot
 from woocommerce import API
 from dotenv import load_dotenv
 import os
-import telebot
+# from telethon.sync import TelegramClient
+from telethon.sessions import StringSession
+from telethon import TelegramClient
+
+# import telebot
 
 import logging
 
 logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.DEBUG)
+logging.getLogger('telebot').setLevel(logging.DEBUG)
+
 load_dotenv()
 
 #  select 2 premium group enviroment variable set 1 for bst environment
-pipeline = 2
+pipeline = 1
 if pipeline == 1:
     load_dotenv(dotenv_path="bst.env")
 if pipeline == 2:
@@ -63,6 +69,7 @@ bot = telebot.TeleBot(
     threaded=True
 )
 
+bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
 # scheduler
 
 
