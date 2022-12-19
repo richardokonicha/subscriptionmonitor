@@ -12,7 +12,7 @@ from telethon.sync import TelegramClient
 from config import api_id, api_hash, sessionString, environment, wordpress_url
 from telethon.sessions import StringSession
 from interface import add_to_queue, get_job_status
-from bst_entity import add_user as add_t
+# from bst_entity import add_user as add_t
 from messages import description
 
 from telethon_client import main, kick, unbanTask, warnbanTask, kickTask
@@ -25,6 +25,7 @@ from telethon.tl.functions.messages import AddChatUserRequest, GetFullChatReques
 from telethon.tl.functions.channels import JoinChannelRequest, InviteToChannelRequest
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
+
 
 
 def get_product_order(woo_data, orderid):
@@ -68,6 +69,71 @@ def get_order(orderid):
 
     return order
 
+def warn_user(bst_user):
+    # warns user from group
+    logging.info(f'warn_user from group {bst_user.username}')
+    userid = bst_user.userid
+
+    answer = description['warn_subscription'].format(wordpress_url=wordpress_url, environment=environment)
+    bot.send_message(userid, text=answer)
+
+def kick_user(bst_user):
+    # kicks user from group
+    logging.info(f'kicks user from group {bst_user.username}')
+
+    userid = bst_user.userid
+    username = bst_user.username
+    channel_name = int(os.getenv("channel_name"))
+
+    # kick_job = q.enqueue_at(subscription, kickTask, userid, channel_name, description=f"kick_user {self.username}")
+
+
+    access = asyncio.run(revoke_access(userid, channel_name, username))
+
+    # bot_client.start()
+    # main_value = bot_client.loop.run_until_complete(
+    #     revoke_access(userid, channel_name, username))
+
+    answer = description['subscription_ended'].format(wordpress_url=wordpress_url, environment=environment)
+
+    bot.send_message(userid, text=answer)
+    print("kicked user lol")
+    return
+
+
+async def revoke_access(userid, channel_name, username):
+
+    bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
+
+    logging.info(f'async kick user from channel {userid}')
+    try:
+        await bot_client.connect()
+        channel = await bot_client.get_entity(channel_name)
+        user = await bot_client.get_entity(userid)
+    except:
+        user = await bot_client.get_entity(username)
+    await asyncio.sleep(1)
+
+    try:
+        msg = description['revoke_access'].format(wordpress_url=wordpress_url, environment=environment)
+        # result = await bot_client.edit_permissions(channel, user, view_messages=True)
+        result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=True)))
+        bot.send_message(userid, text=msg)
+
+        # result2 = await bot_client.kick_participant(channel, user, ban=True)
+
+    except Exception as e:
+        print(e)
+        logging.error(msg, e)
+
+    # result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=True)))
+    # subscription_ended = description['subscription_ended']
+    # return {"channel": channel.title, "newuser": subscription_ended}
+    await bot_client.disconnect()
+
+    return user
+
+
 async def grant_access(user):
     # checks if user is in a group and add users to channel/ group
 
@@ -76,7 +142,7 @@ async def grant_access(user):
 
     logging.info(f'async add users to channel {username}')
     try:
-        await bot_client.start()
+        await bot_client.connect()
 
         channel_name = int(os.getenv("channel_name"))
         channel = await bot_client.get_entity(channel_name)
@@ -96,16 +162,19 @@ async def grant_access(user):
         if check:
             msg = f'🟢 Subscription Renewed'
             try:
-                result = await bot_client.edit_permissions(channel, user)
+                # result = await bot_client.edit_permissions(channel, user,until_date=None, view_messages=False)
+                result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=False)))
+                bot_client.disconnect()
                 bot.send_message(userid, text=msg)
-                # result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=False)))
             except Exception as e:
                 print(e)
         else:
             msg = f'🟢 Congratulations! {channel.title}'
             try:
 
-                result = await bot_client.edit_permissions(channel, user)
+                # result = await bot_client.edit_permissions(channel, user,until_date=None, view_messages=False)
+                # bot.send_message(userid, text=msg)
+                result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=False)))
                 bot.send_message(userid, text=msg)
                 # result = await bot_client(EditBannedRequest(channel.id, user, ChatBannedRights(until_date=None, view_messages=False)))
             except Exception as e:
@@ -120,7 +189,6 @@ async def grant_access(user):
     except Exception as e:
         print("An error occurred!", e)
         return 
-
 
 async def check_group(user_to_add, channel):
     await bot_client.start()
@@ -174,6 +242,20 @@ async def sleep_async(user, seconds):
 
     return value
 
+def schedule_renew(bst_user):
+    warn_date = bst_user.subscription - datetime.timedelta(days=1)
+
+    translated_warndate = warn_date.strftime("%A %d %B %Y")
+
+    logging.info(f'warning on {translated_warndate}')
+    print(f'warning on {translated_warndate}')
+
+    jobwarn = scheduler.add_job(warn_user, 'date', args=[bst_user], run_date=warn_date,
+                                    id=str(bst_user.userid) + ' warn', replace_existing=True, name=f"warn_user {bst_user.username}")
+    job = scheduler.add_job(kick_user, 'date', args=[bst_user], run_date=bst_user.subscription,
+                                id=str(bst_user.userid), replace_existing=True, name=f"kick_user {bst_user.username}")
+    return True
+
 
 @bot.message_handler(commands=["start", "Start"])
 def start(message):
@@ -183,6 +265,7 @@ def start(message):
         bot.send_chat_action(userid, action='typing')
 
         bst_user = db.User.objects(userid=userid).first()
+        # renew = schedule_renew(bst_user)
 
         if bst_user is None:
             username = message.from_user.username
@@ -221,6 +304,7 @@ def start(message):
             translated_subscribedto = subscribedto.strftime("%A %d %B %Y")
 
             access = asyncio.run(grant_access(bst_user))
+            renew = schedule_renew(bst_user)
                 
             if orderid != 101010:
                 bst_user.orders.append(orderid)

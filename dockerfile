@@ -9,6 +9,7 @@ RUN pip install -r requirements.txt
 COPY . .
 ENV PYTHONUNBUFFERED=1
 
+
 EXPOSE 5000
 
 CMD ["python","-u","monitor.py"]
