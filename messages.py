@@ -1,7 +1,5 @@
-
-greeting = 'Hello, my name is {name} and I am {age} years old.'
 description = {
-    'subscription_started': """
+    "subscription_started": """
 Hi {username},
 
 🟢Your subscription for {ordername} has been processed 
@@ -18,8 +16,7 @@ Info @{environment}
 
 Click this link to join
     """,
-
-    'subscription_ended': """
+    "subscription_ended": """
     
 🔴 Your subscription has ended Renew it to have access VIP
 
@@ -29,8 +26,7 @@ Info @{environment}trading
 
 {environment} forex Team
     """,
-
-    'warn_subscription': """
+    "warn_subscription": """
 ⚠️Warning your subscription is ending soon please Renew it to have access VIP
 
 {wordpress_url}
@@ -39,9 +35,7 @@ Info @{environment}
 
 {environment} forex Team
         """,
-
-
-    'revoke_access': """
+    "revoke_access": """
 🔴 🔴 🔴 Your subscription has ended please Renew it to have access VIP
 
 {wordpress_url}
@@ -50,7 +44,4 @@ Info @{environment}
 
 {environment} forex Team
         """,
-
-
-
 }
