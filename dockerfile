@@ -10,7 +10,7 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 
 
-EXPOSE 5000
+EXPOSE 5001
 
 CMD ["python","-u","monitor.py"]
 

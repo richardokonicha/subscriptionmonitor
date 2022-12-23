@@ -14,7 +14,6 @@ from telethon.sync import TelegramClient
 from config import api_id, api_hash, sessionString, environment, wordpress_url
 from telethon.sessions import StringSession
 from interface import add_to_queue, get_job_status
-# from bst_entity import add_user as add_t
 from messages import description
 
 from telethon_client import main, kick, unbanTask, warnbanTask, kickTask
@@ -258,35 +257,13 @@ def schedule_renew(bst_user):
                                 id=str(bst_user.userid), replace_existing=True, name=f"kick_user {bst_user.username}")
     return True
 
-def schedule_create(bst_user):
-    warn_date = bst_user.subscription - datetime.timedelta(days=1)
-
-    translated_warndate = warn_date.strftime("%A %d %B %Y")
-
-    logging.info(f'warning on {translated_warndate}')
-    print(f'warning on {translated_warndate}')
-
-    jobwarn = scheduler.add_job(warn_user, 'date', args=[bst_user], run_date=warn_date,
-                                    id=str(bst_user.userid) + ' warn', replace_existing=True, name=f"warn_user {bst_user.username}")
-    job = scheduler.add_job(kick_user, 'date', args=[bst_user], run_date=bst_user.subscription,
-                                id=str(bst_user.userid), replace_existing=True, name=f"kick_user {bst_user.username}")
-    return True
-
-
 
 @bot.message_handler(commands=["start", "Start"])
 def start(message):
     try:
         userid = message.from_user.id
-        # get user object
         bot.send_chat_action(userid, action='typing')
-
         bst_user = db.User.objects(userid=userid).first()
-
-
-        # access_sync = grant_access(bst_user)
-
-        # print(access_sync.result)
         if bst_user is None:
             username = message.from_user.username
             # create new user
@@ -323,10 +300,8 @@ def start(message):
                 productid, orderid)
             translated_subscribedto = subscribedto.strftime("%A %d %B %Y")
 
-
             access_sync = grant_access(bst_user)
             access_result = access_sync.result
-            # access = asyncio.run(grant_access(bst_user))
             renew = schedule_renew(bst_user)
                 
             if orderid != 101010:

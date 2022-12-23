@@ -25,8 +25,6 @@ sentry_sdk.init(
 )
 scheduler.start()
 
-
-
 @server.route('/', methods=['GET'])
 def index():
     return ('This is a website.', 200, None)
