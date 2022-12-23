@@ -249,7 +249,7 @@ def schedule_renew(bst_user):
     return True
 
 
-@bot.message_handler(commands=["start", "Start"])
+# @bot.message_handler(commands=["start", "Start"])
 def start(message):
     try:
         userid = message.from_user.id

@@ -5,7 +5,7 @@ import datetime
 from config import join_channel_markup
 
 
-@bot.message_handler(commands=["status", "Status"])
+# @bot.message_handler(commands=["status", "Status"])
 def status(message):
     userid = message.from_user.id
     bst_user = db.User.objects(userid=userid).first()

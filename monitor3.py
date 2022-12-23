@@ -5,8 +5,8 @@ import re
 from config import scheduler, wcapi, token, debug, fugoku_url, bot, types, sentrydsn
 import os
 import sentry_sdk
-from features.start import start
-from features.status import status
+
+importdir.do("features", globals())
 
 server = Flask(__name__)
 
@@ -16,21 +16,6 @@ sentry_sdk.init(
     traces_sampler=1,
 )
 scheduler.start()
-
-
-@bot.message_handler(commands=["start", "Start"])
-def start_command(message):
-    try:
-        start(message)
-    except Exception as e:
-        print('Error occurred', e)
-
-@bot.message_handler(commands=["status", "Status"])
-def status_command(message):
-    try:
-        status(message)
-    except Exception as e:
-        print('Error occurred', e)
 
 
 @server.route("/", methods=["GET"])
