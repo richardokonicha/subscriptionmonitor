@@ -8,6 +8,8 @@ import requests
 import time
 import os
 import logging
+import unsync
+from unsync import unsync
 from telethon.sync import TelegramClient
 from config import api_id, api_hash, sessionString, environment, wordpress_url
 from telethon.sessions import StringSession
@@ -86,9 +88,9 @@ def kick_user(bst_user):
     channel_name = int(os.getenv("channel_name"))
 
     # kick_job = q.enqueue_at(subscription, kickTask, userid, channel_name, description=f"kick_user {self.username}")
-
-
-    access = asyncio.run(revoke_access(userid, channel_name, username))
+    kick_sync = revoke_access(userid, channel_name, username)
+    kick_result = kick_sync.result
+    # access = asyncio.run(revoke_access(userid, channel_name, username))
 
     # bot_client.start()
     # main_value = bot_client.loop.run_until_complete(
@@ -100,7 +102,7 @@ def kick_user(bst_user):
     print("kicked user lol")
     return
 
-
+@unsync
 async def revoke_access(userid, channel_name, username):
 
     bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
@@ -133,7 +135,7 @@ async def revoke_access(userid, channel_name, username):
 
     return user
 
-
+@unsync
 async def grant_access(user):
     # checks if user is in a group and add users to channel/ group
 
@@ -256,6 +258,21 @@ def schedule_renew(bst_user):
                                 id=str(bst_user.userid), replace_existing=True, name=f"kick_user {bst_user.username}")
     return True
 
+def schedule_create(bst_user):
+    warn_date = bst_user.subscription - datetime.timedelta(days=1)
+
+    translated_warndate = warn_date.strftime("%A %d %B %Y")
+
+    logging.info(f'warning on {translated_warndate}')
+    print(f'warning on {translated_warndate}')
+
+    jobwarn = scheduler.add_job(warn_user, 'date', args=[bst_user], run_date=warn_date,
+                                    id=str(bst_user.userid) + ' warn', replace_existing=True, name=f"warn_user {bst_user.username}")
+    job = scheduler.add_job(kick_user, 'date', args=[bst_user], run_date=bst_user.subscription,
+                                id=str(bst_user.userid), replace_existing=True, name=f"kick_user {bst_user.username}")
+    return True
+
+
 
 @bot.message_handler(commands=["start", "Start"])
 def start(message):
@@ -265,8 +282,11 @@ def start(message):
         bot.send_chat_action(userid, action='typing')
 
         bst_user = db.User.objects(userid=userid).first()
-        # renew = schedule_renew(bst_user)
 
+
+        # access_sync = grant_access(bst_user)
+
+        # print(access_sync.result)
         if bst_user is None:
             username = message.from_user.username
             # create new user
@@ -303,7 +323,10 @@ def start(message):
                 productid, orderid)
             translated_subscribedto = subscribedto.strftime("%A %d %B %Y")
 
-            access = asyncio.run(grant_access(bst_user))
+
+            access_sync = grant_access(bst_user)
+            access_result = access_sync.result
+            # access = asyncio.run(grant_access(bst_user))
             renew = schedule_renew(bst_user)
                 
             if orderid != 101010:

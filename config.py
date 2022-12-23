@@ -14,7 +14,6 @@ from telethon.sessions import StringSession
 from telethon import TelegramClient
 
 # import telebot
-import sentry_sdk
 
 import logging
 
@@ -55,17 +54,7 @@ join_channel_button = telebot.types.InlineKeyboardButton(
 join_channel_markup.add(join_channel_button)
 
 
-sentry_sdk.init(
-    dsn="https://3f05ccb579b446be8ecbc24fe17c4478@o4504356168597504.ingest.sentry.io/4504356174757888",
 
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0,
-
-    traces_sampler=1
-    
-)
 
 wcapi = API(
     timeout=10,
@@ -108,7 +97,6 @@ scheduler = BackgroundScheduler(
     job_defaults=job_defaults,
     timezone=utc
 )
-scheduler.start()
 
 
 
