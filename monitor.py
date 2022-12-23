@@ -5,7 +5,7 @@ from flask import Flask, request
 # from urllib import unquote_plus
 import json
 import re
-from config import (scheduler, wcapi, token, debug, heroku_url, bot, telebot)
+from config import (scheduler, wcapi, token, debug, fugoku_url, bot, telebot)
 import os
 import sentry_sdk
 importdir.do("features", globals())
@@ -46,10 +46,10 @@ def getMessage():
 
 @server.route('/hook')
 def webhook():
-    jurl = heroku_url
+    jurl = fugoku_url
     bot.remove_webhook()
     bot.set_webhook(jurl + token)
-    return f"Webhook set to {heroku_url}"
+    return f"Webhook set to {fugoku_url}"
 
 
 if debug == True:

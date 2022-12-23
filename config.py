@@ -41,7 +41,7 @@ api_hash = os.getenv("api_hash")
 channel_link = os.getenv("channel_link")
 db_host = os.getenv("db_host")
 db_name = os.getenv("db_name")
-heroku_url = os.getenv("heroku_url")
+fugoku_url = os.getenv("fugoku_url")
 wordpress_url = os.getenv("wordpress_url")
 debug = (os.getenv("debug") == "True")
 
