@@ -8,6 +8,9 @@ import time
 import os
 import logging
 import unsync
+
+# from telegram import ChatAction
+from telebot import types
 from unsync import unsync
 from telethon.sync import TelegramClient
 from config import (
@@ -21,6 +24,7 @@ from config import (
     scheduler,
     channel_link,
     bot_client,
+    channel_name,
 )
 from telethon.sessions import StringSession
 from messages import description
@@ -33,6 +37,8 @@ from telethon.tl.functions.messages import (
 from telethon.tl.functions.channels import JoinChannelRequest, InviteToChannelRequest
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
+
+from telethon.tl.functions.messages import SendReactionRequest
 
 
 def get_product_order(woo_data, orderid):
@@ -83,11 +89,11 @@ def warn_user(bst_user):
     # warns user from group
     logging.info(f"warn_user from group {bst_user.username}")
     userid = bst_user.userid
-
+    username = bst_user.username
     answer = description["warn_subscription"].format(
-        wordpress_url=wordpress_url, environment=environment
+        wordpress_url=wordpress_url, environment=environment, username=username
     )
-    bot.send_message(userid, text=answer)
+    bot.send_message(userid, text=answer, parse_mode="MarkdownV2")
 
 
 def kick_user(bst_user):
@@ -96,16 +102,18 @@ def kick_user(bst_user):
 
     userid = bst_user.userid
     username = bst_user.username
-    channel_name = int(os.getenv("channel_name"))
 
     kick_sync = revoke_access(userid, channel_name, username)
     kick_result = kick_sync.result
 
     answer = description["subscription_ended"].format(
-        wordpress_url=wordpress_url, environment=environment
+        wordpress_url=wordpress_url,
+        environment=environment,
+        username=username,
+        channel_link=channel_link,
     )
 
-    bot.send_message(userid, text=answer)
+    bot.send_message(userid, text=answer, parse_mode="MarkdownV2")
     print("kicked user lol")
     return
 
@@ -126,7 +134,9 @@ async def revoke_access(userid, channel_name, username):
 
     try:
         msg = description["revoke_access"].format(
-            wordpress_url=wordpress_url, environment=environment
+            wordpress_url=wordpress_url,
+            environment=environment,
+            username=username,
         )
         # result = await bot_client.edit_permissions(channel, user, view_messages=True)
         result = await bot_client(
@@ -134,7 +144,11 @@ async def revoke_access(userid, channel_name, username):
                 channel.id, user, ChatBannedRights(until_date=None, view_messages=True)
             )
         )
-        bot.send_message(userid, text=msg)
+        bot.send_message(
+            userid,
+            text=msg,
+            parse_mode="MarkdownV2",
+        )
 
     except Exception as e:
         print(e)
@@ -178,7 +192,11 @@ async def grant_access(user):
                     )
                 )
                 bot_client.disconnect()
-                bot.send_message(userid, text=msg)
+                bot.send_message(
+                    userid,
+                    text=msg,
+                    parse_mode="MarkdownV2",
+                )
             except Exception as e:
                 print(e)
         else:
@@ -193,7 +211,11 @@ async def grant_access(user):
                         ChatBannedRights(until_date=None, view_messages=False),
                     )
                 )
-                bot.send_message(userid, text=msg)
+                bot.send_message(
+                    userid,
+                    text=msg,
+                    parse_mode="MarkdownV2",
+                )
             except Exception as e:
                 print(e)
 
@@ -253,7 +275,11 @@ def schedule_renew(bst_user):
 def start(message):
     try:
         userid = message.from_user.id
+
+        chat_id = message.chat.id
+        message_id = message.message_id
         bot.send_chat_action(userid, action="typing")
+
         bst_user = db.User.objects(userid=userid).first()
         if bst_user is None:
             username = message.from_user.username
@@ -300,6 +326,7 @@ def start(message):
                 ordername=ordername,
                 subscribedto=translated_subscribedto,
                 environment=environment,
+                channel_link=channel_link,
             )
             join_channel_markup = telebot.types.InlineKeyboardMarkup()
             join_channel_button = telebot.types.InlineKeyboardButton(
@@ -310,7 +337,12 @@ def start(message):
             answer = f"Order number {orderid} has already been used"
             join_channel_markup = None
 
-        bot.send_message(userid, text=answer, reply_markup=join_channel_markup)
+        bot.send_message(
+            userid,
+            text=answer,
+            parse_mode="MarkdownV2",
+            reply_markup=join_channel_markup,
+        )
 
     except Exception as e:
         print("an error has occurred", e)

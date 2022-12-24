@@ -16,7 +16,7 @@
       "name": "Monitor",
       "type": "python",
       "request": "launch",
-      "program": "monitor2.py",
+      "program": "monitor.py",
       "console": "integratedTerminal"
     },
     {

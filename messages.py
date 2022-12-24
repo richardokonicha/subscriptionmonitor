@@ -1,47 +1,53 @@
 description = {
     "subscription_started": """
-Hi {username},
+Hello **{username}** 🧌 ♻
 
-🟢Your subscription for {ordername} has been processed 
+Congratulations your subscription for {ordername} has been processed 💹
 
-You now have access to Premium VIP forex signals
+You now have access to trading signals in [Bst Vip Channel]({channel_link}) 🏦
 
-Your subscription would last until {subscribedto}
+Your subscription would last until *{subscribedto}* ⏱
 
-PLEASE READ THE PINNED MESSAGE IN VIP AND FOLLOW MONEY MANAGEMENT! 
+`PLEASE READ THE PINNED MESSAGE IN VIP AND FOLLOW MONEY MANAGEMENT!` 💵
 
-Info @{environment}
+__Info @{environment}__ Forex Team 🏢 
 
-{environment} Team
-
+```
 Click this link to join
-    """,
-    "subscription_ended": """
-    
-🔴 Your subscription has ended Renew it to have access VIP
-
-{wordpress_url}
-
-Info @{environment}trading 
-
-{environment} forex Team
-    """,
+```
+""",
     "warn_subscription": """
-⚠️Warning your subscription is ending soon please Renew it to have access VIP
+Warning ⚠️ **{username}** 🧌 ⚠️
+
+Your subscription access to [Bst Vip Channel]({channel_link}) 🏦 is ending soon 
+Please Renew it
 
 {wordpress_url}
 
-Info @{environment}
+__Info @{environment}__ Forex Team 🏢 
 
-{environment} forex Team
         """,
+    "subscription_ended": """
+Hello **{username}** 🧌 ❗
+
+Your subscription to [Bst Vip Channel]({channel_link}) has ended ❗❗
+
+Renew it to gain back access to the vip trading channel, get market updates and continue to stay relevant 💷
+
+Purchase access here {wordpress_url} 🏷
+
+__Info @{environment}__ Forex Team 🏢 
+
+    """,
     "revoke_access": """
-🔴 🔴 🔴 Your subscription has ended please Renew it to have access VIP
+Hello **{username}** 🧌 ❗
 
-{wordpress_url}
+Your subscription to [Bst Vip Channel]({channel_link}) has ended ❗❗
 
-Info @{environment}
+Renew it to gain back access to the vip trading channel, get market updates and continue to stay relevant 💷
 
-{environment} forex Team
+Purchase access here {wordpress_url} 🏷
+
+__Info @{environment}__ Forex Team 🏢 
         """,
 }

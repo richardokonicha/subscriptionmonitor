@@ -73,3 +73,12 @@ print('my name john')
 
 
 # # asyncio.run(async_send_message())
+
+# from telethon.tl.functions.messages import SendReactionRequest
+
+
+# await client(SendReactionRequest(
+#     peer=chat,
+#     msg_id=42,
+#     reaction='❤️'
+# ))

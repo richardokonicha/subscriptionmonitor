@@ -1,4 +1,3 @@
-import importdir
 from flask import Flask, request
 import json
 import re

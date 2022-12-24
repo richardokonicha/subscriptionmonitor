@@ -43,6 +43,8 @@ fugoku_url = os.getenv("fugoku_url")
 wordpress_url = os.getenv("wordpress_url")
 debug = os.getenv("debug") == "True"
 sentrydsn = os.getenv("sentrydsn")
+channel_name = int(os.getenv("channel_name"))
+
 
 print(f"Environment is {environment}")
 
