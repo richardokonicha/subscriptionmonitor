@@ -91,7 +91,10 @@ def warn_user(bst_user):
     userid = bst_user.userid
     username = bst_user.username
     answer = description["warn_subscription"].format(
-        wordpress_url=wordpress_url, environment=environment, username=username
+        wordpress_url=wordpress_url,
+        environment=environment,
+        username=username,
+        channel_link=channel_link,
     )
     bot.send_message(userid, text=answer, parse_mode="MarkdownV2")
 
@@ -121,8 +124,6 @@ def kick_user(bst_user):
 @unsync
 async def revoke_access(userid, channel_name, username):
 
-    bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
-
     logging.info(f"async kick user from channel {userid}")
     try:
         await bot_client.connect()
@@ -137,6 +138,7 @@ async def revoke_access(userid, channel_name, username):
             wordpress_url=wordpress_url,
             environment=environment,
             username=username,
+            channel_link=channel_link,
         )
         # result = await bot_client.edit_permissions(channel, user, view_messages=True)
         result = await bot_client(
@@ -200,7 +202,7 @@ async def grant_access(user):
             except Exception as e:
                 print(e)
         else:
-            msg = f"🟢 Congratulations! {channel.title}"
+            msg = f"🟢 Congratulations {channel.title}"
             try:
                 # result = await bot_client.edit_permissions(channel, user,until_date=None, view_messages=False)
                 # bot.send_message(userid, text=msg)
