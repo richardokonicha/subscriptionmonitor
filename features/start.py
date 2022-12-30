@@ -7,9 +7,7 @@ import requests
 import time
 import os
 import logging
-import unsync
 
-# from telegram import ChatAction
 from telebot import types
 from unsync import unsync
 from telethon.sync import TelegramClient
@@ -100,7 +98,6 @@ def warn_user(bst_user):
 
 
 def kick_user(bst_user):
-    # kicks user from group
     logging.info(f"kicks user from group {bst_user.username}")
 
     userid = bst_user.userid
@@ -273,7 +270,6 @@ def schedule_renew(bst_user):
     return True
 
 
-# @bot.message_handler(commands=["start", "Start"])
 def start(message):
     try:
         userid = message.from_user.id

@@ -71,7 +71,7 @@ bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
 client = MongoClient(db_host)
 
 jobstores = {
-    "default": MongoDBJobStore(client=client, database=db_name),
+    "mongo": MongoDBJobStore(client=client, database=db_name),
 }
 executors = {
     # 'default': ThreadPoolExecutor(20),

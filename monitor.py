@@ -1,11 +1,28 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import json
 import re
-from config import scheduler, wcapi, token, debug, fugoku_url, bot, types, sentrydsn
+from unsync import unsync
+import uvicorn
+
+from config import (
+    scheduler,
+    wcapi,
+    token,
+    debug,
+    fugoku_url,
+    bot,
+    types,
+    sentrydsn,
+    channel_name,
+    bot_client,
+)
 import os
 import sentry_sdk
 from features.start import start
 from features.status import status
+from features.dashboard import dashboard
+
+from telethon.tl.functions.photos import GetUserPhotosRequest
 
 server = Flask(__name__)
 
@@ -17,19 +34,28 @@ sentry_sdk.init(
 scheduler.start()
 
 
+@bot.message_handler(commands=["dashboard", "Dashboard"])
+def dashboard_command(message):
+    try:
+        dashboard(message)
+    except Exception as e:
+        print("Error occurred on dashboard", e)
+
+
 @bot.message_handler(commands=["start", "Start"])
 def start_command(message):
     try:
         start(message)
     except Exception as e:
-        print('Error occurred', e)
+        print("Error occurred on start", e)
+
 
 @bot.message_handler(commands=["status", "Status"])
-def status_command(message):
+def status_commandd(message):
     try:
         status(message)
     except Exception as e:
-        print('Error occurred', e)
+        print("Error occurred on status", e)
 
 
 @server.route("/", methods=["GET"])
