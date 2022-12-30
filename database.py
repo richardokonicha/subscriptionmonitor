@@ -10,9 +10,9 @@ from mongoengine import (
     IntField,
     Document,
 )
-from config import db_host
+from config import db_host, db_name
 
-connect("monitor_db", host=db_host)
+connect(db_name, host=db_host)
 
 
 class User(Document):

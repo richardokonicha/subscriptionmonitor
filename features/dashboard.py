@@ -13,6 +13,6 @@ def dashboard(message):
     if tasks:
         message_text = "The scheduled tasks are:\n\n"
         for task in tasks:
-            message_text += f"- {task.name}-{task.id}\n{task.next_run_time.strftime('%A %d %B %Y')}\n"
+            message_text += f"- {task.name} -{task.id}\n{task.next_run_time.strftime('%A %d %B %Y')}\n"
 
     bot.send_message(message.chat.id, message_text)
