@@ -1,25 +1,24 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.mongodb import MongoDBJobStore
-# from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
+
+# from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from pytz import utc
-from apscheduler.schedulers.blocking import BlockingScheduler
-import pymongo
-import telebot
+from pymongo import MongoClient
+from telebot import types, TeleBot
 from woocommerce import API
 from dotenv import load_dotenv
 import os
-# from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
 from telethon import TelegramClient
-
-# import telebot
-
 import logging
 
 logging.basicConfig()
-logging.getLogger('apscheduler').setLevel(logging.DEBUG)
-logging.getLogger('telebot').setLevel(logging.DEBUG)
+logging.getLogger("apscheduler").setLevel(logging.DEBUG)
+# logging.getLogger("telebot").setLevel(logging.DEBUG)
+# import logging
+
+# logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
+
 
 load_dotenv()
 
@@ -29,7 +28,6 @@ if pipeline == 1:
     load_dotenv(dotenv_path="bst.env")
 if pipeline == 2:
     load_dotenv(dotenv_path="premium.env")
-# premium_channel = os.getenv()
 
 environment = os.getenv("environment")
 sessionString = os.getenv("sessionString")
@@ -41,20 +39,20 @@ api_hash = os.getenv("api_hash")
 channel_link = os.getenv("channel_link")
 db_host = os.getenv("db_host")
 db_name = os.getenv("db_name")
-heroku_url = os.getenv("heroku_url")
+fugoku_url = os.getenv("fugoku_url")
 wordpress_url = os.getenv("wordpress_url")
-debug = (os.getenv("debug") == "True")
+debug = os.getenv("debug") == "True"
+sentrydsn = os.getenv("sentrydsn")
+channel_name = int(os.getenv("channel_name"))
+
 
 print(f"Environment is {environment}")
 
-sessionString = os.getenv("sessionString")
-join_channel_markup = telebot.types.InlineKeyboardMarkup()
-join_channel_button = telebot.types.InlineKeyboardButton(
-    text="Join Now ✅", url=channel_link, callback_data="join_channel")
+join_channel_markup = types.InlineKeyboardMarkup()
+join_channel_button = types.InlineKeyboardButton(
+    text="Join Now ✅", url=channel_link, callback_data="join_channel"
+)
 join_channel_markup.add(join_channel_button)
-
-
-
 
 wcapi = API(
     timeout=10,
@@ -63,24 +61,17 @@ wcapi = API(
     consumer_secret=csecret,
     wp_api=True,
     version="wc/v3",
-    query_string_auth=True
+    query_string_auth=True,
 )
 
-
-bot = telebot.TeleBot(
-    token,
-    threaded=True
-)
+bot = TeleBot(token, threaded=True)
 
 bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
-# scheduler
 
-
-client = pymongo.MongoClient(db_host)
+client = MongoClient(db_host)
 
 jobstores = {
-    'default': MongoDBJobStore(client=client, database=db_name, HOST="mongodb://iad2-c12-1.mongo.objectrocket.com:53267"),
-    # 'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+    "mongo": MongoDBJobStore(client=client, database=db_name),
 }
 executors = {
     # 'default': ThreadPoolExecutor(20),
@@ -88,23 +79,9 @@ executors = {
 }
 job_defaults = {
     # 'coalesce': False,
-    'max_instances': 3,
-    'misfire_grace_time': 259200
+    "max_instances": 3,
+    "misfire_grace_time": 259200,
 }
 scheduler = BackgroundScheduler(
-    jobstores=jobstores,
-    executors=executors,
-    job_defaults=job_defaults,
-    timezone=utc
+    jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc
 )
-
-
-
-
-# r = wcapi.get("orders?completed")
-
-# print(wcapi.get("orders/727").json())
-
-# import pprint
-# pprint.pprint(r.json())
-# print(r.status_code)

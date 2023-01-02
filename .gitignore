@@ -1,7 +1,6 @@
 node_modules/
 extra
 .env
-
 *.pyc
 features/__pycache__/
 *.session
@@ -9,5 +8,9 @@ features/__pycache__/
 *.sqlite
 subscription-env/
 subscript-env/
-venv/*
+venv/
 venv2/
+example/
+.vscode/
+__pycache__/
+example/

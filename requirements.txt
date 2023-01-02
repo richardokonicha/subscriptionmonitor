@@ -45,10 +45,10 @@ Telethon==1.26.0
 toml==0.10.2
 tzdata==2022.7
 tzlocal==4.2
+unsync==1.4.0
 urllib3==1.26.13
 uvicorn==0.20.0
 Werkzeug==2.2.2
 WooCommerce==3.0.0
 wrapt==1.14.1
 yarl==1.8.2
-sentry_sdk

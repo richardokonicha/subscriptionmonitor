@@ -1,56 +1,53 @@
-
-greeting = 'Hello, my name is {name} and I am {age} years old.'
 description = {
-    'subscription_started': """
-Hi {username},
+    "subscription_started": """
+Hello **{username}** 🧌 ♻
 
-🟢Your subscription for {ordername} has been processed 
+Congratulations your subscription for {ordername} has been processed 💹
 
-You now have access to Premium VIP forex signals
+You now have access to trading signals in [Bst Vip Channel]({channel_link}) 🏦
 
-Your subscription would last until {subscribedto}
+Your subscription would last until *{subscribedto}* ⏱
 
-PLEASE READ THE PINNED MESSAGE IN VIP AND FOLLOW MONEY MANAGEMENT! 
+`PLEASE READ THE PINNED MESSAGE IN VIP AND FOLLOW MONEY MANAGEMENT` 💵
 
-Info @{environment}
+__Info @{environment}__ Forex Team 🏢 
 
-{environment} Team
-
+```
 Click this link to join
-    """,
+```
+""",
+    "warn_subscription": """
+Warning **{username}** ⚠️ 🧌 ⚠️
 
-    'subscription_ended': """
-    
-🔴 Your subscription has ended Renew it to have access VIP
+Your subscription access to Bst Vip Channel 🏦 is ending soon 
+Please Renew it ⚠️ ⚠️
 
-{wordpress_url}
+[Register on bst\-forexgroup\.com]({wordpress_url})
 
-Info @{environment}trading 
+__Info @{environment}__ Forex Team 🏢 ⚠️
 
-{environment} forex Team
-    """,
-
-    'warn_subscription': """
-⚠️Warning your subscription is ending soon please Renew it to have access VIP
-
-{wordpress_url}
-
-Info @{environment}
-
-{environment} forex Team
         """,
+    "subscription_ended": """
+Hello **{username}** 🧌 ❗
 
+Your subscription to Bst Vip Channel has ended ❗❗
 
-    'revoke_access': """
-🔴 🔴 🔴 Your subscription has ended please Renew it to have access VIP
+Renew it to gain back access to the vip trading channel, get market updates and continue to stay relevant 💷
 
-{wordpress_url}
+[Purchase access here bst\-forexgroup\.com  🏷]({wordpress_url})
 
-Info @{environment}
+__Info @{environment}__ Forex Team 🏢  
 
-{environment} forex Team
+    """,
+    "revoke_access": """
+Hello **{username}** 🧌 ❗
+
+Your subscription to [Bst Vip Channel]({channel_link}) has ended ❗❗
+
+Renew it to gain back access to the vip trading channel, get market updates and continue to stay relevant 💷
+
+[Purchase access here bst\-forexgroup\.com  🏷]({wordpress_url})
+
+__Info @{environment}__ Forex Team 🏢 
         """,
-
-
-
 }
