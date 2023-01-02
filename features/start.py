@@ -69,7 +69,7 @@ def get_woo_data(load):
         print("Timeout occurred, trying again")
         time.sleep(3)
         get_order(load)
-    logging.warning(f"Woocommerce returned {data['message']} \n")
+    logging.warning(f"Woocommerce returned \n")
     return data
 
 
