@@ -113,7 +113,8 @@ def kick_user(bst_user):
         channel_link=channel_link,
     )
 
-    bot.send_message(userid, text=answer, parse_mode="MarkdownV2")
+    bot.send_message(userid, text=answer, parse_mode="MarkdownV2",
+                     disable_web_page_preview=True)
     print("kicked user lol")
     return
 
@@ -140,13 +141,15 @@ async def revoke_access(userid, channel_name, username):
         # result = await bot_client.edit_permissions(channel, user, view_messages=True)
         result = await bot_client(
             EditBannedRequest(
-                channel.id, user, ChatBannedRights(until_date=None, view_messages=True)
+                channel.id, user, ChatBannedRights(
+                    until_date=None, view_messages=True)
             )
         )
         bot.send_message(
             userid,
             text=msg,
             parse_mode="MarkdownV2",
+            disable_web_page_preview=True
         )
 
     except Exception as e:
