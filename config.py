@@ -29,20 +29,20 @@ if pipeline == 1:
 if pipeline == 2:
     load_dotenv(dotenv_path="premium.env")
 
-environment = os.getenv("environment")
-sessionString = os.getenv("sessionString")
-token = os.getenv("token")
+api_hash = os.getenv("api_hash")
+api_id = os.getenv("api_id")
+channel_link = os.getenv("channel_link")
 ckey = os.getenv("ckey")
 csecret = os.getenv("csecret")
-api_id = os.getenv("api_id")
-api_hash = os.getenv("api_hash")
-channel_link = os.getenv("channel_link")
 db_host = os.getenv("db_host")
 db_name = os.getenv("db_name")
-fugoku_url = os.getenv("fugoku_url")
-wordpress_url = os.getenv("wordpress_url")
 debug = os.getenv("debug") == "True"
+environment = os.getenv("environment")
+fugoku_url = os.getenv("fugoku_url")
 sentrydsn = os.getenv("sentrydsn")
+sessionString = os.getenv("sessionString")
+token = os.getenv("token")
+wordpress_url = os.getenv("wordpress_url")
 channel_name = int(os.getenv("channel_name"))
 
 
@@ -72,6 +72,7 @@ client = MongoClient(db_host)
 
 jobstores = {
     "mongo": MongoDBJobStore(client=client, database=db_name),
+    "default": MongoDBJobStore(client=client, database=db_name),
 }
 executors = {
     # 'default': ThreadPoolExecutor(20),

@@ -52,26 +52,26 @@ class User(Document):
         if productid == 101010:
             subscribed_time = datetime.timedelta(minutes=0.3)
 
-        if productid == 978:
+        if productid == 22:
             # 1 month subscription
             subscribed_time = datetime.timedelta(days=30)
 
-        if productid == 979:
+        if productid == 23:
             # 2 months subscription
             subscribed_time = datetime.timedelta(days=60)
 
-        if productid == 980:
+        if productid == 24:
             # 1 year subscription
             subscribed_time = datetime.timedelta(days=365)
 
         if productid == 25:
-            # 1 year subscription
+            # Lifetime subscription
             subscribed_time = datetime.timedelta(weeks=4000)
 
         if subscribed_time:
             subscription = self.addsubscription(subscribed_time)
         else:
-            print("subscribed time is null")
+            print("subscribed time is null this product id has changed on wordpress please check", productid)
         return subscription
 
     def __repr__(self):

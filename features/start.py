@@ -123,6 +123,7 @@ def kick_user(bst_user):
 async def revoke_access(userid, channel_name, username):
 
     logging.info(f"async kick user from channel {userid}")
+    
     try:
         await bot_client.connect()
         channel = await bot_client.get_entity(channel_name)
@@ -139,9 +140,10 @@ async def revoke_access(userid, channel_name, username):
             channel_link=channel_link,
         )
         # result = await bot_client.edit_permissions(channel, user, view_messages=True)
+        print('Banning user', channel.id, user)
         result = await bot_client(
             EditBannedRequest(
-                channel.id, user, ChatBannedRights(
+                channel.id, user.id, ChatBannedRights(
                     until_date=None, view_messages=True)
             )
         )
@@ -189,11 +191,12 @@ async def grant_access(user):
                 result = await bot_client(
                     EditBannedRequest(
                         channel.id,
-                        user,
+                        user.id | userid,
                         ChatBannedRights(until_date=None, view_messages=False),
                     )
                 )
-                bot_client.disconnect()
+                print("Grant access")
+                # bot_client.disconnect()
                 bot.send_message(
                     userid,
                     text=msg,
@@ -209,7 +212,7 @@ async def grant_access(user):
                 result = await bot_client(
                     EditBannedRequest(
                         channel.id,
-                        user,
+                        user.id,
                         ChatBannedRights(until_date=None, view_messages=False),
                     )
                 )
@@ -221,7 +224,7 @@ async def grant_access(user):
             except Exception as e:
                 print(e)
 
-        await asyncio.sleep(1)
+        # await asyncio.sleep(1)
 
         value = {
             "channel": channel.title,
@@ -260,6 +263,7 @@ def schedule_renew(bst_user):
         id=str(bst_user.userid) + " warn",
         replace_existing=True,
         name=f"warn_user {bst_user.username}",
+        jobstore='mongo'
     )
     job = scheduler.add_job(
         kick_user,
@@ -269,6 +273,7 @@ def schedule_renew(bst_user):
         id=str(bst_user.userid),
         replace_existing=True,
         name=f"kick_user {bst_user.username}",
+        jobstore='mongo'
     )
     return True
 
@@ -316,6 +321,7 @@ def start(message):
 
             access_sync = grant_access(bst_user)
             access_result = access_sync.result
+            time.sleep(10)
             renew = schedule_renew(bst_user)
 
             if orderid != 101010:
