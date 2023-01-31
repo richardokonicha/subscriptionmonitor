@@ -43,7 +43,6 @@ from helpers import (get_product_order, get_woo_data, get_order, warn_user, kick
 def start(message):
     try:
         userid = message.from_user.id
-
         chat_id = message.chat.id
         message_id = message.message_id
         bot.send_chat_action(userid, action="typing")
@@ -89,6 +88,7 @@ def start(message):
                 bst_user.orders.append(orderid)
                 bst_user.save()
 
+            ordername = re.sub('[()+]',"",ordername)
             answer = description["subscription_started"].format(
                 username=username,
                 ordername=ordername,

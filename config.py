@@ -72,7 +72,7 @@ client = MongoClient(db_host)
 
 jobstores = {
     "mongo": MongoDBJobStore(client=client, database=db_name),
-    "default": MongoDBJobStore(client=client, database=db_name),
+    # "default": MongoDBJobStore(client=client, database=db_name),
 }
 executors = {
     # 'default': ThreadPoolExecutor(20),
