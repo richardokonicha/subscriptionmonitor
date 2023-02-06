@@ -30,6 +30,9 @@ sentry_sdk.init(
     dsn=sentrydsn,
     traces_sample_rate=1.0,
     traces_sampler=1,
+    _experiments={
+    "profiles_sample_rate": 1.0,
+  }
 )
 scheduler.start()
 
