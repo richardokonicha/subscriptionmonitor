@@ -17,6 +17,7 @@ from config import (
     scheduler,
     channel_link,
     channel_name,
+    admin_id
 )
 from telethon.sessions import StringSession
 from messages import description
@@ -41,6 +42,7 @@ def get_product_order(woo_data, orderid):
             ordername = woo_data["line_items"][0]["name"]
             msg = f"{ordername} Order placed"
         except KeyError as e:
+            sendError(e)
             msg = "Invalid Order ID please place an order"
     order = {"productid": productid, "ordername": ordername, "msg": msg}
     logging.warning(f"Product order info retrived {ordername, msg}")
@@ -112,12 +114,12 @@ async def revoke_access(userid, channel_name, username):
     logging.info(f"async kick user from channel {userid}")
 
     try:
-        await bot_client.connect()
-        channel = await bot_client.get_entity(channel_name)
-        user = await bot_client.get_entity(userid)
-    except:
-        user = await bot_client.get_entity(username)
-    try:
+        try:
+            await bot_client.connect()
+            channel = await bot_client.get_entity(channel_name)
+            user = await bot_client.get_entity(userid)
+        except:
+            user = await bot_client.get_entity(username)
         msg = description["revoke_access"].format(
             wordpress_url=wordpress_url,
             environment=environment,
@@ -141,6 +143,7 @@ async def revoke_access(userid, channel_name, username):
     except Exception as e:
         print(e)
         logging.error(msg, e)
+        sendError(e)
 
     await bot_client.disconnect()
     return user
@@ -150,21 +153,22 @@ async def revoke_access(userid, channel_name, username):
 async def grant_access(user):
     userid = user.userid
     username = user.username
-    bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
-    await bot_client.connect()
+    try:
+        bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
+        await bot_client.connect()
 
-    logging.info(f"async add users to channel {username}")
-    try:
-        channel_name = int(os.getenv("channel_name"))
-        channel = await bot_client.get_entity(channel_name)
-        print("fetching user by id")
-        user = await bot_client.get_entity(userid)
-    except Exception as e:
-        print("fetching user by username", e)
-        user = await bot_client.get_entity(username)
-    else:
-        print("Everything is ok.")
-    try:
+        logging.info(f"async add users to channel {username}")
+        try:
+            channel_name = int(os.getenv("channel_name"))
+            channel = await bot_client.get_entity(channel_name)
+            print("fetching user by id")
+            user = await bot_client.get_entity(userid)
+        except Exception as e:
+            print("fetching user by username", e)
+            user = await bot_client.get_entity(username)
+        else:
+            print("Everything is ok.")
+
         check = await check_group(userid, channel, bot_client)
 
         if check:
@@ -186,6 +190,7 @@ async def grant_access(user):
                 )
             except Exception as e:
                 print(e)
+                sendError(e)
         else:
             msg = f"🟢 Congratulations {channel.title}"
             try:
@@ -204,10 +209,12 @@ async def grant_access(user):
                 )
             except Exception as e:
                 print(e)
+                sendError(e)
                 return e
 
     except Exception as e:
         print("An error occurred!", e)
+        sendError(e)
         return e
 
     await bot_client.disconnect()
@@ -256,3 +263,10 @@ def schedule_renew(bst_user):
         jobstore='mongo'
     )
     return True
+
+
+
+def sendError(error):
+    error_text = f'{str(error)} {error.message}'
+    print("Reporting erorr", error_text)
+    return bot.send_message(admin_id, text=error_text)

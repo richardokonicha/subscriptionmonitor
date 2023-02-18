@@ -21,7 +21,6 @@ from config import (
     wcapi,
     scheduler,
     channel_link,
-    bot_client,
     channel_name,
 )
 from telethon.sessions import StringSession

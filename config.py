@@ -44,6 +44,7 @@ sessionString = os.getenv("sessionString")
 token = os.getenv("token")
 wordpress_url = os.getenv("wordpress_url")
 channel_name = int(os.getenv("channel_name"))
+admin_id = os.getenv("admin_id")
 
 
 print(f"Environment is {environment}")
@@ -66,7 +67,7 @@ wcapi = API(
 
 bot = TeleBot(token, threaded=True)
 
-bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
+# bot_client = TelegramClient(StringSession(sessionString), api_id, api_hash)
 
 client = MongoClient(db_host)
 

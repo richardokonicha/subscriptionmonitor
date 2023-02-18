@@ -14,7 +14,7 @@ from config import (
     types,
     sentrydsn,
     channel_name,
-    bot_client,
+    # bot_client,
 )
 import os
 import sentry_sdk

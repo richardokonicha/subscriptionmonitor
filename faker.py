@@ -5,12 +5,30 @@ from dotenv import load_dotenv
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 load_dotenv()
+from helpers import schedule_renew
+from config import scheduler
 
 api_hash = os.getenv("api_hash")
 api_id = os.getenv("api_id")
 sessionString = os.getenv("sessionString")
 
-client = TelegramClient(StringSession(sessionString), api_id, api_hash)
+
+# import database as db
+# scheduler.start()
+
+
+# objects = db.User.objects.all()
+
+# for bst_user in objects:
+#     add = schedule_renew(bst_user)
+#     print(bst_user)
+
+# print(objects)
+
+
+client = TelegramClient(StringSession(''), api_id, api_hash)
+
+
 
 
 async def main(userid, channel_name, username):
