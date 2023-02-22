@@ -45,11 +45,12 @@ def start(message):
         chat_id = message.chat.id
         message_id = message.message_id
         if not message.from_user.username:
-
-            return bot.send_message(
+            return bot.send_photo(
                 userid,
-                text="You don't have a username, set a username and try again.",
+                photo="https://i1.wp.com/www.swipetips.com/wp-content/uploads/2021/03/tap-your-current-telegram-username.png?resize=300%2C285&ssl=1",
+                caption="Your Telegram account doesn't have a username, set a username and try again."
             )
+            
         message.from_user.username
         bot.send_chat_action(userid, action="typing")
 

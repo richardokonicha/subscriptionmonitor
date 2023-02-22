@@ -117,9 +117,9 @@ async def revoke_access(userid, channel_name, username):
         try:
             await bot_client.connect()
             channel = await bot_client.get_entity(channel_name)
-            user = await bot_client.get_entity(userid)
-        except:
             user = await bot_client.get_entity(username)
+        except:
+            user = await bot_client.get_entity(userid)
         msg = description["revoke_access"].format(
             wordpress_url=wordpress_url,
             environment=environment,
@@ -129,7 +129,7 @@ async def revoke_access(userid, channel_name, username):
         # result = await bot_client.edit_permissions(channel, user, view_messages=True)
         result = await bot_client(
             EditBannedRequest(
-                channel.id, user.id, ChatBannedRights(
+                channel, user, ChatBannedRights(
                     until_date=None, view_messages=True)
             )
         )
@@ -162,7 +162,7 @@ async def grant_access(user):
             channel_name = int(os.getenv("channel_name"))
             channel = await bot_client.get_entity(channel_name)
          
-            print("fetching user by username", e)
+            print("fetching user by username")
             user = await bot_client.get_entity(username)
         except Exception as e:
             print("fetching user by id")
@@ -178,8 +178,8 @@ async def grant_access(user):
                 # result = await bot_client.edit_permissions(channel, user,until_date=None, view_messages=False)
                 result = await bot_client(
                     EditBannedRequest(
-                        channel.id,
-                        username | user.user_id | userid,
+                        channel,
+                        user,
                         ChatBannedRights(until_date=None, view_messages=False),
                     )
                 )
@@ -198,8 +198,8 @@ async def grant_access(user):
                 # result = await bot_client.edit_permissions(channel, user,until_date=None, view_messages=False)
                 result = await bot_client(
                     EditBannedRequest(
-                        channel.id,
-                        username | user.user_id,
+                        channel,
+                        user,
                         ChatBannedRights(until_date=None, view_messages=False),
                     )
                 )
