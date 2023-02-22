@@ -163,10 +163,10 @@ async def grant_access(user):
             channel = await bot_client.get_entity(channel_name)
          
             print("fetching user by username", e)
-            user = await bot_client.get_input_entity(username)
+            user = await bot_client.get_entity(username)
         except Exception as e:
             print("fetching user by id")
-            user = await bot_client.get_input_entity(userid)
+            user = await bot_client.get_entity(userid)
         else:
             print("Everything is ok.")
 
