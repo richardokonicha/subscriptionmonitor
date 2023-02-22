@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 load_dotenv()
-from helpers import schedule_renew
-from config import scheduler
+# from helpers import schedule_renew
+# from config import scheduler
 
 api_hash = os.getenv("api_hash")
 api_id = os.getenv("api_id")
