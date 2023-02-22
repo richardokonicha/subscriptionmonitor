@@ -161,11 +161,12 @@ async def grant_access(user):
         try:
             channel_name = int(os.getenv("channel_name"))
             channel = await bot_client.get_entity(channel_name)
-            print("fetching user by id")
-            user = await bot_client.get_input_entity(userid)
-        except Exception as e:
+         
             print("fetching user by username", e)
             user = await bot_client.get_input_entity(username)
+        except Exception as e:
+            print("fetching user by id")
+            user = await bot_client.get_input_entity(userid)
         else:
             print("Everything is ok.")
 
@@ -178,7 +179,7 @@ async def grant_access(user):
                 result = await bot_client(
                     EditBannedRequest(
                         channel.id,
-                        user.id | userid,
+                        username | user.user_id | userid,
                         ChatBannedRights(until_date=None, view_messages=False),
                     )
                 )
@@ -198,7 +199,7 @@ async def grant_access(user):
                 result = await bot_client(
                     EditBannedRequest(
                         channel.id,
-                        user.id,
+                        username | user.user_id,
                         ChatBannedRights(until_date=None, view_messages=False),
                     )
                 )
