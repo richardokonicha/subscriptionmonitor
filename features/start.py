@@ -44,6 +44,13 @@ def start(message):
         userid = message.from_user.id
         chat_id = message.chat.id
         message_id = message.message_id
+
+        if not message.from_user.username:
+            return bot.send_message(
+                userid,
+                text="You don't have a username, set a username and try again."
+            )
+
         bot.send_chat_action(userid, action="typing")
 
         bst_user = db.User.objects(userid=userid).first()
