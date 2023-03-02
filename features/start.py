@@ -95,7 +95,7 @@ def start(message):
                 bst_user.orders.append(orderid)
                 bst_user.save()
 
-            ordername = re.sub('[()+]',"",ordername)
+            ordername = re.sub(r'\W+', " ", ordername)
             answer = description["subscription_started"].format(
                 username=username,
                 ordername=ordername,
