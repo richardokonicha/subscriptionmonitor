@@ -51,7 +51,6 @@ def start(message):
                 caption="Your Telegram account doesn't have a username, set a username and try again."
             )
             
-        message.from_user.username
         bot.send_chat_action(userid, action="typing")
 
         bst_user = db.User.objects(userid=userid).first()

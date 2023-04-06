@@ -52,19 +52,19 @@ class User(Document):
         if productid == 101010:
             subscribed_time = datetime.timedelta(minutes=0.5)
 
-        if productid == 978:
+        if productid == 22:
             # 1 month subscription
             subscribed_time = datetime.timedelta(days=30)
 
-        if productid == 979:
+        if productid == 23:
             # 2 months subscription
             subscribed_time = datetime.timedelta(days=60)
 
-        if productid == 980:
+        if productid == 24:
             # 1 year subscription
             subscribed_time = datetime.timedelta(days=365)
 
-        if productid == 13246:
+        if productid == 25:
             # Lifetime subscription
             subscribed_time = datetime.timedelta(weeks=4000)
 
