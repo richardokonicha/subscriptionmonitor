@@ -97,7 +97,7 @@ def start(message):
 
             ordername = re.sub(r'\W+', " ", ordername)
             answer = description["subscription_started"].format(
-                username=username,
+                username=username.replace("_", "\_"),
                 ordername=ordername,
                 subscribedto=translated_subscribedto,
                 environment=environment,
