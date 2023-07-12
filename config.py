@@ -45,6 +45,12 @@ wordpress_url = os.getenv("wordpress_url")
 channel_name = int(os.getenv("channel_name"))
 admin_id = os.getenv("admin_id")
 
+MONTHLY=int(os.getenv("MONTHLY"))
+BIMONTHLY=int(os.getenv("BIMONTHLY"))
+YEARLY=int(os.getenv("YEARLY"))
+LIFETIME=int(os.getenv("LIFETIME"))
+
+
 
 print(f"Environment is {environment}")
 

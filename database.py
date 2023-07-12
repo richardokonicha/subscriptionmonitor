@@ -10,7 +10,8 @@ from mongoengine import (
     IntField,
     Document,
 )
-from config import db_host, db_name
+from config import db_host, db_name, MONTHLY, YEARLY, BIMONTHLY, LIFETIME
+
 
 connect(db_name, host=db_host)
 
@@ -52,19 +53,19 @@ class User(Document):
         if productid == 101010:
             subscribed_time = datetime.timedelta(minutes=0.5)
 
-        if productid == 22:
+        if productid == MONTHLY:
             # 1 month subscription
             subscribed_time = datetime.timedelta(days=30)
 
-        if productid == 23:
+        if productid == BIMONTHLY:
             # 2 months subscription
             subscribed_time = datetime.timedelta(days=60)
 
-        if productid == 24:
+        if productid == YEARLY:
             # 1 year subscription
             subscribed_time = datetime.timedelta(days=365)
 
-        if productid == 25:
+        if productid == LIFETIME:
             # Lifetime subscription
             subscribed_time = datetime.timedelta(weeks=4000)
 
@@ -76,6 +77,7 @@ class User(Document):
             return subscription
         except Exception as e:
             print("Problem with product id please check", productid)
+            logging.info("Problem with product id please check ")
             return None
 
     def __repr__(self):
